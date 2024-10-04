@@ -1,0 +1,558 @@
+
+
+Sale and Purchase Agreement :
+
+
+1.Jenkins :
+
+What are the different types of Jenkins?
+
+Different Types of Jenkins Pipelines are designed to cater to 
+specific needs and scenarios. The four main types of Jenkins
+pipelines 
+are– Declarative, Scripted, Multibranch, and Shared Library; 
+each of them brings distinct benefits and capabilities to the table. Let us prioritize the first two types for now
+
+2.How many types of triggers are in Jenkins?
+Ex-TCSer | DevOps | Azure | GIT| Terraform |… In Jenkins, 
+"build periodically,"
+ "pollSCM," and
+ "webhook" are different methods of triggering Jenkins jobs.
+
+WORKING FOLLOWING STRUCTURE:
+
+1.MY WORKPLACE HAVE SPRING BOOT PROJECT HAVE :
+
+   1. click cmd 
+   2. git init
+   3. git add.
+   4. git commit - "first Commit"
+   5.    
+   
+   
+   
+   
+   
+TYPESCRIPT :
+
+
+1. Class Decorder:
+  
+  
+  @Component({
+  selector:'example-component',
+  template:<div>Class Decorder</div>
+  })
+  
+2.Write Two way Data binding code snippet
+
+ <input type="text" [(ngModel)]="FirstName">
+
+3.Write a code Snippet to use filters
+
+  Using | symbol or pipe()
+
+4.which the statement which will invoke the API End point from Angular code.
+
+ get() => = this.http.get<Employee []>(this.jsonUrl ,employee).
+ 
+5.The Decorder used for Depemdebcy Injection is @Injectable
+
+6.Write an example for http interceptor usage in Angular
+
+   @Injectable
+   
+  export class FristHttpIntercaptor Implememtaion HTTPInterceptor{
+   }
+   
+7.How can access the event arugemnet from UI.
+ <input type="text" (keyup)="updateField(&event)">
+ 
+8.
+
+
+export class UpperCasePipe implemetaion to PipeTransform{
+
+transform(value:string):string{
+if(!value){ retrun value();
+if(typeof value!==string){
+throw InvaildArugmentPipe(value){
+
+return this.toUppercase.value();
+
+}
+
+}
+}
+}
+}
+
+
+Online Courier Service : 
+
+
+Overview
+
+Project Name      : Online Courier Management System
+
+Technologies Used : UI - Angular Framework and Backend - SpringBoot and MySQL
+
+Purpose           : To streamline courier services for businesses and individuals.
+
+Key Features      : User-Centric Interface
+
+above Technologies have to berief inside concept using in project build need .Interview at that time explain
+
+Easy online booking for courier services.
+Input fields for sender/recipient info, parcel details, and delivery preferences.
+
+Digital Receipts
+Users receive digital receipts as proof of transaction.
+Enhances transparency and accountability.
+
+Real-Time Tracking
+Users can track the status and location of parcels.
+Builds trust and reliability in the service.
+
+Workforce Management
+Simplified onboarding for new staff members.
+Admin approval required for system access, ensuring quality and professionalism.
+
+Dynamic Cost Management
+Administrators can adjust costs based on market conditions.
+Ensures competitive pricing aligned with industry standards.
+
+Courier Tracking for Admins
+Comprehensive tracking of parcels, delivery timelines, and overall performance.
+Enhances operational efficiency and accountability.
+
+Staff Assignment Optimization
+Assigns pickups and deliveries based on geographical proximity.
+Leads to timely and efficient service.
+
+Conclusion
+The system represents a significant advancement in courier management.
+Its features promote transparency, accountability, and customer satisfaction.
+Overall, it redefines the courier management landscape, making it a valuable asset for users and businesses.
+
+
+
+
+Here’s a brief explanation of the technologies used in the "Online Courier Management System":
+
+Project Name :
+Online Courier Management System
+
+Technologies Used :
+Java
+
+A versatile, high-level programming language widely used for building server-side applications. It offers robust performance, security features, and portability across different platforms, making it ideal for developing backend services in a web application.
+MySQL
+
+An open-source relational database management system. It is used to store and manage data efficiently. MySQL allows for structured data storage with capabilities for complex queries, transactions, and data integrity, making it suitable for handling user and transaction data in the courier management system.
+JWT (JSON Web Tokens)
+
+A compact, URL-safe means of representing claims to be transferred between two parties. In the context of this project, JWT is used for secure authentication and authorization. It enables the system to verify users' identities and manage session states without needing server-side session storage, enhancing security and scalability.
+Angular Framework
+
+A platform and framework for building single-page applications (SPAs) using HTML, CSS, and TypeScript. Angular provides a rich set of tools for developing dynamic user interfaces. It supports component-based architecture, making it easier to manage the UI and improve responsiveness, enhancing the user experience in the courier booking process.
+Purpose
+The system aims to streamline courier services for both businesses and individuals, making it more efficient and user-friendly. By leveraging these technologies, the project provides a robust, secure, and interactive solution for managing courier logistics effectively.
+
+
+
+
+
+
+Self Introduction :
+
+Myself             : Muthuraj Periyasamy 
+
+I am from Sankarankovil
+
+College            : Frist Diploma ECE Mspvl Polytechnic College , Second BE - ECE in collge Thamirabharni Enginnering College.
+
+Working Experince  : 1 Year 6 month complete training and Microproject and Capstone Project. I like both side more knowledges have .
+
+Micro Project Name : Online Courier Management System
+
+Technologies Used  : UI - Angular Framework and Backend - security - JWT SpringBoot and MySQL
+
+Capstone Project   : Corporate Communication Protol.
+
+Technologies Used  : UI - Angular Framework and Backend security - JWT - SpringBoot and MySQL 
+
+
+
+
+
+
+
+Sure! Here’s a real-time example topic that incorporates several key concepts of Spring Boot, focusing on building a user management system:
+
+### Example Topic: Building a User Management System with Spring Boot
+
+#### Overview
+Create a user management system that allows for user registration, login, profile management, and secure access to user data. This project will demonstrate key Spring Boot features such as dependency injection, auto-configuration, RESTful API creation, and JWT-based security.
+
+#### Key Features
+
+1. **User Registration**:
+   - Implement a RESTful API endpoint for user registration.
+   - Use Spring Data JPA to interact with a relational database (e.g., PostgreSQL) for storing user data.
+
+2. **User Login**:
+   - Create an endpoint for user login that validates credentials.
+   - Generate and return a JWT token upon successful authentication.
+
+3. **Profile Management**:
+   - Allow users to update their profiles through a secure endpoint that requires JWT authentication.
+   - Use dependency injection to manage service and repository layers.
+
+4. **Secure Endpoints**:
+   - Protect certain endpoints using Spring Security, ensuring that only authenticated users can access their data.
+   - Implement role-based access control (e.g., admin vs. regular users).
+
+5. **Auto-Configuration**:
+   - Leverage Spring Boot’s auto-configuration features to set up the database connection, security configurations, and REST controllers without extensive manual configuration.
+
+6. **Documentation**:
+   - Use Swagger to document the API endpoints for easy testing and understanding.
+
+#### Implementation Steps
+
+1. **Set Up the Project**:
+   - Create a new Spring Boot project using Spring Initializr, including dependencies for Spring Web, Spring Data JPA, Spring Security, and JWT.
+
+2. **Define Entities**:
+   - Create a `User` entity with fields such as `id`, `username`, `password`, and `role`.
+
+3. **Create Repositories**:
+   - Implement a `UserRepository` interface that extends `JpaRepository` for database operations.
+
+4. **Develop Services**:
+   - Create a `UserService` class that contains the business logic for registration, login, and profile updates.
+
+5. **Implement Security**:
+   - Configure Spring Security to use JWT for authentication and authorize requests based on user roles.
+
+6. **Build REST Controllers**:
+   - Create REST controllers to handle incoming requests for user registration, login, and profile management.
+
+7. **Test the Application**:
+   - Use Postman or a similar tool to test the API endpoints, ensuring that JWT authentication works as expected.
+
+8. **Deploy**:
+   - Optionally, deploy the application on a cloud platform (like Heroku or AWS) or containerize it using Docker.
+
+### Conclusion
+This user management system will provide a practical demonstration of Spring Boot’s capabilities, including dependency injection, auto-configuration, RESTful APIs, and JWT security. It will serve as a solid foundation for understanding backend development with Spring Boot and can be extended further for more complex applications.
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1.ARRAY :
+   
+         Array is collection of elemets data store in array.
+         It is static type array.
+         It is three way intialize create array Objects.
+         It is memory alloaction store one by one.  
+         inefficent.
+   
+   int a=[1,2,3,4,5]
+   
+   One Dimentional Array:
+     It is store kind of liner array.It involves single sub-scribting array:
+	 
+	 int number=[]
+	 
+   Two Dimentional Array:
+     It is store muliple elements store in array.It involves Double sub-scribting array:
+	 
+	  int number=[][]
+
+Advantage :
+
+    It is store data continues.
+	It can lead store,retraving data,manipulated data.
+	
+	
+Disadvantage :
+ 
+    It is fixed size array.
+	
+2.List : - Linked List and Array List .
+
+     The list interface allows duplicate elements. 
+       
+	 The list maintains insertion order. 
+
+     We can add any number of null values. 
+
+     List implementation classes are Array List, LinkedList. 
+
+     The list provides get() method to get the element at a specified index. 
+
+     If you need to access the elements frequently by using the index, then we can use the list 
+
+     To traverse the list elements by using Litterateur. 
+	 
+	 
+	 There are four key types of linked lists:
+
+     Singly linked lists
+     Doubly linked lists
+     Circular linked lists
+     Circular doubly linked lists
+	 
+3.
+	 
+	 EXAMPLE:
+	 
+	 import java.util.*;  
+     public class LinkedList1{  
+     public static void main(String args[]){  
+  
+     LinkedList<String> al=new LinkedList<String>();  
+     al.add("Ravi");  
+     al.add("Vijay");  
+     al.add("Ravi");  
+     al.add("Ajay");  
+  
+     Iterator<String> itr=al.iterator();  
+     while(itr.hasNext()){  
+     System.out.println(itr.next());  
+       }  
+      }  
+     }  
+
+
+
+     
+
+	  
+	  
+	  
+String in Java:
+
+String class represents character strings, we can instantiate String in two ways.
+
+String str = "ABC";
+// or 
+String str = new String("ABC");
+
+String is immutable in Java. So it’s suitable to use in a multi-threaded environment. We can share it across functions because there is no concern of data inconsistency.
+
+When we create a String using double quotes, JVM first looks for the String with the same value in the string pool. If found, it returns the reference of the string object from the pool. Otherwise, it creates the String object in the String pool and returns the reference. JVM saves a lot of memory by using the same String in different threads.
+
+If the new operator is used to create a string, it gets created in the heap memory.
+
+The + operator is overloaded for String. We can use it to concatenate two strings. Although internally it uses StringBuffer to perform this action.
+
+String overrides equals() and hashCode() methods. Two Strings are equal only if they have the same character sequence. The equals() method is case sensitive. If you are looking for case insensitive checks, you should use equalsIgnoreCase() method.
+
+The string uses UTF-16 encoding for the character stream.
+
+String is a final class. All the fields as final except “private int hash”. This field contains the hashCode() function value. The hashcode value is calculated only when the hashCode() method is called for the first time and then cached in this field. Furthermore, the hash is generated using the final fields of String class with some calculations. So every time the hashCode() method is called, it will result in the same output. For the caller, it seems like calculations are happening every time but internally it’s cached in the hash field.
+
+
+	  
+	  
+	 
+	 
+	
+
+	
+   
+   
+Exception:
+ 
+1.What is Exception.
+2.Types Of Exception.
+      1.1 Checked Exception
+      1.2 Unchecked Exception
+3.When will not handle Exception in Java.
+
+
+Spring FrameWork:
+
+What is Spring Framework:
+What is IoC container.
+What is Application of Spring Boot.
+
+
+What is Configuration?
+What is Dependency Injection?
+Types Of Dependency Injection?
+
+
+What is Bean Factory?
+What is Appliaction Bean?
+What is @Configuration?
+What is @Service?
+What is @Component?
+What is IoC container?
+
+
+
+Java 8:
+
+1.What is Functional Interface.
+2.What is Lambda Interface.
+3.What is Metheod Reference.
+4.How to implement Functional Interface.
+
+
+Data Structure:
+
+What is ARRAY.
+What is LIST.
+What is Stack.
+What is Queue.
+What is ArrayList & LinkedList.
+
+What is Collection Java.util.Packeage.
+
+OOPS:
+
+Pilors Of Concepts:
+
+1.What is Abstraction. where can be used 
+2.What is Inhertiance. Types.
+3.What is polymorphism. Types.
+4.What is Encapusltaion.
+
+1.What is Class 
+2.What is Interface.
+3.What is Is-A realtionship
+4.What is Hs-A realtionship.
+
+
+Java and Application.
+Java JVM :
+Java JRE :
+Java JDK :
+
+
+
+
+Angular Program:
+HTML:
+
+<From #myForm="ngForm">
+<Label class="label-name">Employee Id</Label>
+<Input class="from-control" type="number" name="empId" #empId="ng Model" ng Model required>
+<Label class="label-name">Employee Name</Label>
+<Input class="from-control" type="text" name="empName" #empName="ng Model" ng Model required>
+<Label class="Label-name"> Employee Addrees</Label>
+<Input class="from-control" type="text" name="empMobile" #empMobile="ng Model" ng Model required>
+<button  (click)="InsertEmployee(myForm.value)></button>
+</From>
+
+ts:
+
+employees! : Employee;
+empList!:Employee;
+result!:any;
+
+constructor(private http:HttpModule,private employeeService:EmployeeService){
+this employees=new Employee();
+this.getAllEmployee();
+
+}
+InsertEmployee(data:any){
+
+Object.assign(this.employees ,data);
+this.result=this.employeeService.EmployeeInsert(this.employees);
+this.getAllEmployee();
+}
+
+getAllEmployee(){
+this.employeeService.getAll.subricbe(this.employees => this.empList = employees);
+
+}
+
+
+Service:
+
+
+private 'JsonUrl'="http/localhost:8080"
+
+constuctor(priavte http:HttpModule){
+
+EmployeeInsert(employees:Employee){
+              this.http.post.('this.jsonUrl' ,employees).subscribe();
+}
+
+getAll => () = this.http.get<Emplyee []>('this.jsonUrl', employees);
+
+}
+
+--------------------------------------
+
+
+FromModule Function Condition Metheod:
+
+
+Html:
+
+
+<from [FromGroup]="perfromInsert">
+<input from-control="id"  empId="number">
+<input from-control="id" empName="text">
+<input from-control="id" empAddress="text">
+<button ngClick="Onsubmit()">  
+</from>
+
+
+ts:
+
+
+perfromInsert!=FromGroup;
+
+employee!:Employee;
+
+constructor(private http:HttpModule,private userService:userService){
+
+this.perfromInsert=this.fb =>{
+this.empId('',validate required);
+this.empName('', validate required);
+this.empAddress('', validate required);
+}
+
+
+ngOnInIt() : void{
+this.Onsubmit();
+this.getAllEmployeeDetails();
+}
+
+Onsubmit() : void{
+
+this.perfromInsert => (this.perfromInsert.value){
+thsis.userService.EmplyeeInsert.subscibe(perfromInsert.this.value){
+
+response(){
+
+console()
+
+},error(){
+console()
+
+}
+}
+}
+}
+}
+
+
+Service:
+
+private 'jsonUrl': "http:Localhost:/8080/"
+
+
+constuctor(private http:HttpModule,private user){
+
+
+
+
+}

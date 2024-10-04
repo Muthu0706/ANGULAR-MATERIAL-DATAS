@@ -1,0 +1,5108 @@
+
+
+
+
+Employee Name : Muthuraj Periyasamy
+Employee Id   : 11949
+Leaves : 2 CL
+1.Date 06/09/2024 (Friday)   reason: Brother Married Function
+2.Date 07/09/2024 (saturday) reason: Sick leave.
+
+package com.example.departmentalstore.controller;
+
+import com.example.departmentalstore.entity.Category;
+import com.example.departmentalstore.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/categories")
+public class CategoryController {
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @GetMapping
+    public List<Category> getAllCategories() {
+        return categoryService.getAllCategories();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Category> getCategoryById(@PathVariable Integer id) {
+        Optional<Category> category = categoryService.getCategoryById(id);
+        return category.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public Category addCategory(@RequestBody Category category) {
+        return categoryService.saveCategory(category);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Category> updateCategory(@PathVariable Integer id, @RequestBody Category category) {
+        if (!categoryService.getCategoryById(id).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        category.setCategoryid(id);
+        return ResponseEntity.ok(categoryService.saveCategory(category));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Integer id) {
+        if (!categoryService.getCategoryById(id).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        categoryService.deleteCategory(id);
+        return ResponseEntity.noContent().build();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+1. templete:
+https://pixinvent.com/materialize-material-design-admin-template/html/ltr/vertical-modern-menu-template/form-elements.html
+
+Retail Store Management System | Spring Boot Angular Project Tutorial | Spring Boot CRUD Project
+Youtube Channel : Code Assists:
+
+Certainly! Here's a list of more modern and engaging names for the functionalities you've described:
+
+Start Sell
+
+Launch Sale
+Begin Transaction
+Initiate Sale
+Order Report
+
+Sales Dashboard
+Order Insights
+Sales Overview
+Product Report
+
+Product Analytics
+Inventory Insights
+Product Performance
+Add Product
+
+New Product Entry
+Add New Item
+Product Addition
+Company Report
+
+Business Overview
+Company Performance
+Corporate Analytics
+Add Company
+
+Register New Company
+Add New Business
+Company Onboarding
+Category Report
+
+Category Insights
+Category Analytics
+Category Overview
+Add Category
+
+Create New Category
+Add New Product Category
+Category Creation
+Logout
+
+Sign Out
+Exit
+Tirunelveli
+Log Off
+Thamirabharani Engineering College :
+
+1. Start Sell
+2. Order Report
+3.Product Report
+4.Add Product
+5.Company Report
+6.Add Company
+7.Category Report
+8.Add Category
+9.Lagout
+
+
+To design a complete solution with JWT authentication for a retail shop or departmental store, we will implement a system with a registration page, a login page, and a balance statement screen. The implementation involves both the frontend (using Angular) and backend (using Spring Boot). Below is a detailed guide on how to set up these components.
+
+1. System Overview
+Frontend (Angular):
+
+Registration Page
+Login Page
+Balance Statement Page
+Backend (Spring Boot):
+
+JWT Authentication
+Registration API
+Login API
+Balance Statement API
+2. Frontend Implementation
+a. Set Up Angular Project
+Create Angular Project:
+
+bash
+Copy code
+ng new retail-app
+cd retail-app
+ng add @angular/material
+Install Required Packages:
+
+bash
+Copy code
+npm install @auth0/angular-jwt
+b. Create Components
+Generate Components:
+
+bash
+Copy code
+ng generate component register
+ng generate component login
+ng generate component balance-statement
+Setup Routing in app-routing.module.ts:
+
+typescript
+Copy code
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { BalanceStatementComponent } from './balance-statement/balance-statement.component';
+
+const routes: Routes = [
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'balance-statement', component: BalanceStatementComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+c. Implement Components
+Registration Page (register.component.html):
+
+html
+Copy code
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Register</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form (ngSubmit)="register()" #registerForm="ngForm">
+      <mat-form-field>
+        <input matInput placeholder="Username" [(ngModel)]="user.username" name="username" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Email" [(ngModel)]="user.email" name="email" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="password" placeholder="Password" [(ngModel)]="user.password" name="password" required>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">Register</button>
+    </form>
+  </mat-card-content>
+</mat-card>
+Registration Logic (register.component.ts):
+
+typescript
+Copy code
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
+})
+export class RegisterComponent {
+  user = { username: '', email: '', password: '' };
+
+  constructor(private http: HttpClient, private router: Router) {}
+
+  register(): void {
+    this.http.post('/api/register', this.user).subscribe(
+      () => this.router.navigate(['/login']),
+      error => console.error('Registration error:', error)
+    );
+  }
+}
+Login Page (login.component.html):
+
+html
+Copy code
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Login</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form (ngSubmit)="login()" #loginForm="ngForm">
+      <mat-form-field>
+        <input matInput placeholder="Email" [(ngModel)]="credentials.email" name="email" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="password" placeholder="Password" [(ngModel)]="credentials.password" name="password" required>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">Login</button>
+    </form>
+  </mat-card-content>
+</mat-card>
+Login Logic (login.component.ts):
+
+typescript
+Copy code
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent {
+  credentials = { email: '', password: '' };
+  private jwtHelper = new JwtHelperService();
+
+  constructor(private http: HttpClient, private router: Router) {}
+
+  login(): void {
+    this.http.post<any>('/api/login', this.credentials).subscribe(
+      response => {
+        localStorage.setItem('token', response.token);
+        this.router.navigate(['/balance-statement']);
+      },
+      error => console.error('Login error:', error)
+    );
+  }
+}
+Balance Statement Page (balance-statement.component.html):
+
+html
+Copy code
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Balance Statement</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.date | date }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+        <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
+        <td mat-cell *matCellDef="let element">{{ element.amount | currency }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSize]="10"></mat-paginator>
+  </mat-card-content>
+</mat-card>
+Balance Statement Logic (balance-statement.component.ts):
+
+typescript
+Copy code
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+
+@Component({
+  selector: 'app-balance-statement',
+  templateUrl: './balance-statement.component.html',
+  styleUrls: ['./balance-statement.component.css']
+})
+export class BalanceStatementComponent implements OnInit {
+  displayedColumns: string[] = ['date', 'description', 'amount'];
+  dataSource = new MatTableDataSource<any>();
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.fetchData();
+  }
+
+  fetchData(): void {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    this.http.get<any[]>('/api/balance-statement', { headers }).subscribe(
+      data => {
+        this.dataSource.data = data;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error => console.error('Error fetching balance statements', error)
+    );
+  }
+
+  applyFilter(filterValue: string): void {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+}
+3. Backend Implementation
+a. Set Up Spring Boot Project
+Add Dependencies:
+
+Add the following dependencies to pom.xml:
+
+
+3. Backend Implementation
+a. Set Up Spring Boot Project
+Add Dependencies:
+
+Add the following dependencies to pom.xml:
+
+xml
+Copy code
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+<dependency>
+  <groupId>io.jsonwebtoken</groupId>
+  <artifactId>jjwt</artifactId>
+  <version>0.9.1</version>
+</dependency>
+b. Implement JWT Authentication
+Create JWT Utility Class:
+
+java
+Copy code
+@Component
+public class JwtUtil {
+  private String secret = "your_secret_key";
+
+  public String generateToken(String username) {
+    return Jwts.builder()
+      .setSubject(username)
+      .setIssuedAt(new Date())
+      .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
+      .signWith(SignatureAlgorithm.HS256, secret)
+      .compact();
+  }
+
+  public Claims extractClaims(String token) {
+    return Jwts.parser()
+      .setSigningKey(secret)
+      .parseClaimsJws(token)
+      .getBody();
+  }
+
+  public String extractUsername(String token) {
+    return extractClaims(token).getSubject();
+  }
+
+  public boolean isTokenExpired(String token) {
+    return extractClaims(token).getExpiration().before(new Date());
+  }
+
+  public boolean validateToken(String token, UserDetails userDetails) {
+    return (userDetails.getUsername().equals(extractUsername(token)) && !isTokenExpired(token));
+  }
+}
+Create JWT Filter:
+
+java
+Copy code
+public class JwtFilter extends OncePerRequestFilter {
+  @Autowired
+  private JwtUtil jwtUtil;
+
+  @Autowired
+  private UserDetailsService userDetailsService;
+
+  @Override
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+      throws ServletException, IOException {
+    final String authorizationHeader = request.getHeader("Authorization");
+
+    String username = null;
+    String jwtToken = null;
+
+    if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+      jwtToken = authorizationHeader.substring(7);
+      username = jwtUtil.extractUsername(jwtToken);
+    }
+
+    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+      UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+      if (jwtUtil.validateToken(jwtToken, userDetails)) {
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+          userDetails, null, userDetails.getAuthorities());
+        usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+      }
+    }
+    filterChain.doFilter(request, response);
+  }
+}
+
+Create Security Configuration:
+
+java
+Copy code
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+  @Autowired
+  private JwtFilter jwtFilter;
+
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.inMemoryAuthentication()
+      .withUser("user")
+      .password("{noop}password")
+      .roles("USER");
+  }
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.csrf().disable()
+      .authorizeRequests()
+      .antMatchers("/api/login", "/api/register").permitAll()
+      .anyRequest().authenticated()
+      .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+    http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+  }
+}
+Create User and Balance Statement Entities, Repositories, Services, and Controllers:
+
+User Entity:
+
+java
+Copy code
+@Entity
+public class User {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  private String username;
+  private String email;
+  private String password;
+
+  // Getters and Setters
+}
+User Repository:
+
+java
+Copy code
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+  Optional<User> findByUsername(String username);
+}
+User Service:
+
+java
+Copy code
+@Service
+public class UserService {
+  @Autowired
+  private UserRepository userRepository;
+
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+
+  public User registerUser(User user) {
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    return userRepository.save(user);
+  }
+
+  public User findByUsername(String username) {
+    return userRepository.findByUsername(username).orElse(null);
+  }
+}
+User Controller:
+
+java
+Copy code
+@RestController
+@RequestMapping("/api")
+public class UserController {
+  @Autowired
+  private UserService userService;
+
+  @Autowired
+  private JwtUtil jwtUtil;
+
+  @PostMapping("/register")
+  public ResponseEntity<User> registerUser(@RequestBody User user) {
+    User registeredUser = userService.registerUser(user);
+    return ResponseEntity.ok(registeredUser);
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
+    User foundUser = userService.findByUsername(user.getUsername());
+    if (foundUser != null && passwordEncoder.matches(user.getPassword(), foundUser.getPassword())) {
+      String token = jwtUtil.generateToken(user.getUsername());
+      return ResponseEntity.ok(Collections.singletonMap("token", token));
+    } else {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+  }
+}
+Balance Statement Entity:
+
+java
+Copy code
+@Entity
+public class BalanceStatement {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  private LocalDate date;
+  private String description;
+  private BigDecimal amount;
+
+  // Getters and Setters
+}
+Balance Statement Repository:
+
+java
+Copy code
+@Repository
+public interface BalanceStatementRepository extends JpaRepository<BalanceStatement, Long> {
+}
+Balance Statement Service:
+
+java
+Copy code
+@Service
+public class BalanceStatementService {
+  @Autowired
+  private BalanceStatementRepository repository;
+
+  public List<BalanceStatement> getAllBalanceStatements() {
+    return repository.findAll();
+  }
+}
+Balance Statement Controller:
+
+java
+Copy code
+@RestController
+@RequestMapping
+
+
+
+You said:
+Balance Statement Controller:
+ChatGPT said:
+ChatGPT
+Here's how you can implement the Balance Statement Controller in Spring Boot to manage balance statements for a retail shop or departmental store. This controller will handle requests related to balance statements, such as fetching the list of balance statements.
+
+Balance Statement Controller
+BalanceStatementController.java:
+
+java
+Copy code
+package com.example.retailapp.controller;
+
+import com.example.retailapp.model.BalanceStatement;
+import com.example.retailapp.service.BalanceStatementService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api")
+public class BalanceStatementController {
+
+    @Autowired
+    private BalanceStatementService balanceStatementService;
+
+    @GetMapping("/balance-statement")
+    public ResponseEntity<List<BalanceStatement>> getBalanceStatements() {
+        try {
+            List<BalanceStatement> balanceStatements = balanceStatementService.getAllBalanceStatements();
+            return new ResponseEntity<>(balanceStatements, HttpStatus.OK);
+        } catch (Exception e) {
+            // Log the error (optional)
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+}
+Explanation
+Annotations:
+
+@RestController: Indicates that the class is a RESTful controller.
+@RequestMapping("/api"): Maps HTTP requests to /api to this controller.
+Dependency Injection:
+
+@Autowired: Injects the BalanceStatementService to interact with balance statement data.
+Endpoints:
+
+@GetMapping("/balance-statement"): Maps HTTP GET requests for /api/balance-statement to this method. This endpoint retrieves all balance statements.
+Response Handling:
+
+Success: Returns a list of balance statements with HTTP status 200 (OK).
+Error Handling: If an exception occurs, returns HTTP status 500 (Internal Server Error).
+Balance Statement Service
+For completeness, here is a brief look at the BalanceStatementService that the controller uses:
+
+BalanceStatementService.java:
+
+java
+Copy code
+package com.example.retailapp.service;
+
+import com.example.retailapp.model.BalanceStatement;
+import com.example.retailapp.repository.BalanceStatementRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class BalanceStatementService {
+
+    @Autowired
+    private BalanceStatementRepository balanceStatementRepository;
+
+    public List<BalanceStatement> getAllBalanceStatements() {
+        return balanceStatementRepository.findAll();
+    }
+}
+Testing the Controller
+After implementing the controller and service, ensure that you:
+
+Run Your Spring Boot Application: Start the backend server to expose the API.
+Test the Endpoint:
+Use tools like Postman or cURL to make a GET request to http://localhost:8080/api/balance-statement and check if you receive the list of balance statements.
+Handling JWT Authentication
+If your API endpoints require authentication, ensure that your security configuration and JWT filter are correctly set up to protect the /api/balance-statement endpoint.
+
+Example of Secure Endpoint Configuration in SecurityConfig.java:
+
+java
+Copy code
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    http.csrf().disable()
+        .authorizeRequests()
+        .antMatchers("/api/login", "/api/register").permitAll()
+        .anyRequest().authenticated()
+        .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+    http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+}
+In this configuration, all requests to /api/balance-statement will require authentication, and the JwtFilter will handle JWT validation.
+
+By setting up the controller as described, you provide a robust API for accessing balance statements in your retail application, ensuring that it meets both functionality and security requirements.
+
+
+
+
+Learning Platform:
+
+DashBoard :
+https://stackblitz.com/edit/angular-material-toggle-sidenav-in-another-component?file=src%2Fapp%2Flayouts%2Flayouts.component.html
+
+https://www.hackerrank.com/blog/typescript-interview-questions-developers-should-know/
+https://www.turing.com/interview-questions/angular
+gh repo clone mei33/hackerrank-typescript-solutions
+
+
+
+npm install @angular/material@7.2.15 @angular/cdk@7.2.15 @angular/core@7.2.15
+
+
+
+import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { OrderService } from '../services/order.service';
+import { Order, OrderItem, Product } from '../models/order.model'; // Update path as needed
+
+@Component({
+  selector: 'app-order-details',
+  templateUrl: './order-details.component.html',
+  styleUrls: ['./order-details.component.css']
+})
+export class OrderDetailsComponent implements OnInit {
+  orderId: string = '9f9f'; // Example static value, replace with dynamic data if needed
+  orderDate: Date = new Date(); // Example static value, replace with dynamic data if needed
+  customerName: string = 'John Doe'; // Example static value, replace with dynamic data if needed
+  customerMobile: string = '9876543210'; // Example static value, replace with dynamic data if needed
+  dataSource = new MatTableDataSource<OrderItem>([]);
+  displayedColumns: string[] = ['productId', 'productName', 'pricePerUnit', 'totalUnits', 'totalCost', 'action'];
+  totalAmount: number = 0;
+  loading: boolean = true;
+
+  addItemForm: FormGroup;
+
+  constructor(private fb: FormBuilder, private orderService: OrderService) {
+    this.addItemForm = this.fb.group({
+      productId: [''],
+      quantity: [0]
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadOrderDetails();
+  }
+
+  loadOrderDetails(): void {
+    this.orderService.getOrderDetails(this.orderId).subscribe(
+      (data: Order) => {
+        this.dataSource.data = data.items || [];
+        this.orderDate = new Date(data.orderDate);
+        this.customerName = data.customerName;
+        this.customerMobile = data.customerMobile;
+        this.calculateTotalAmount();
+        this.loading = false;
+      },
+      error => {
+        console.error('Error loading order details:', error);
+        this.loading = false;
+      }
+    );
+  }
+
+  addItem(): void {
+    const formValue = this.addItemForm.value;
+    this.orderService.getProductById(formValue.productId).subscribe((product: Product) => {
+      const totalCost = product.costPerItem * formValue.quantity;
+      this.dataSource.data = [...this.dataSource.data, {
+        productId: formValue.productId,
+        productName: product.productTitle,
+        pricePerUnit: product.costPerItem,
+        totalUnits: formValue.quantity,
+        totalCost: totalCost
+      }];
+      this.calculateTotalAmount();
+    });
+  }
+
+  removeItem(item: OrderItem): void {
+    this.dataSource.data = this.dataSource.data.filter(i => i !== item);
+    this.calculateTotalAmount();
+  }
+
+  calculateTotalAmount(): void {
+    this.totalAmount = this.dataSource.data.reduce((acc, item) => acc + item.totalCost, 0);
+  }
+
+  saveSellDetails(): void {
+    const orderDetails = {
+      orderId: this.orderId,
+      items: this.dataSource.data,
+      totalAmount: this.totalAmount
+    };
+    this.orderService.saveOrderDetails(orderDetails).subscribe(response => {
+      console.log('Order details saved:', response);
+    });
+  }
+}
+
+'TechCorp', 'Leading provider of tech solutions'
+
+
+1.npm install -g @angular/cli 
+  D:\APPJSON\Emp
+2. npm run json-server --watch Register.json port 3004
+3.ng serve
+
+D:\IFF_Demo\IFFProject  TYPESCRIPT HAVE
+
+{
+    "schoolstudent":
+    [
+        {
+            "studentId":1,
+            "studentName":"Muthu",
+            "studentSection":"cc"
+        }
+    ]
+}
+
+ npm run json-server --watch student.js port 3004
+
+...
+Interview Brief:
+First 30 Min   :
+         Therotical /Practical Given Discuess.      
+Second 30 Min :
+         Techincal assessment.
+
+
+Javascript Two types declaration :
+    Var number =1;
+    let number =1;
+Two same decalration using But It is two different version.
+// example 1 : Two Types Variable Declartion Var Let
+function doSomething(){
+    for(var i=0;i<=5;i++){
+       console.log(i);
+    }
+    console.log('Finally :i' , i); // It is var last data send
+  }
+   
+  // example 2 : Two Types Variable Declartion Var Let
+  function doSomething1(){
+    for(let i=0;i<=5;i++){
+       console.log(i); //Because let only Inside allowing data
+
+    }
+    // console.log('Finally :i' , i);// error Cannot find name 'i'.
+    //Because let only Inside allowing data
+  }
+
+  // Data Types :
+  // Default data type be  any:
+
+  let count =1;
+  // let count ='a'; Type 'string' is not assignable to type 'number'.ts(2322)
+
+  let a:number;
+  let b:string;
+  let c:boolean;
+  let d:number[] =[1,2,3,4]; // it is create array
+  let e:any[] =[1,'a', true] // it is avoid method mostly
+
+//2. Enum DATA TYPES:
+
+// It will feature may be used different variable 
+const colorRed = 0;
+const colorBule = 1;
+const colorGreen =2;
+
+enum Color { Red=101, Blue=102,Green=103 };
+
+let backgroudColor =Color.Blue; // It will suggestion
+
+
+// 3. TYPE Assertions
+
+// let color1 : 'yellow';
+// let endwithE = color1.endsWith('e');// Tt will show string methods methods
+
+let color; // it is take any data type 
+color = 'red';
+let Alter1endWithD = color.endsWith('d');// Tt will  not show  any suggestions. Because not assign let color taken any 
+
+// It is used types assertion
+let colors;
+color = 'Green';
+let Alter2endWithD = ( <String> color).endsWith('d')
+
+let Alter3endWithD = (color as string).endsWith('d') ; // It is type assertion
+
+// 4. Arrow Functions
+
+let log = function (message :any){
+console.log(message);
+}
+
+let dolog= (message:any) => console.log(message);
+
+
+
+/// 5 Interface
+
+
+interface Point{
+    x:number;
+    y:number
+    z:number;
+    draw:() =>void;
+
+}
+
+let draw =(point:Point) =>{
+}
+// draw('a',3); // it is error will Beacuse two arugments given Nut i ONE arugment given 
+// But feature will increase number of arugments
+// So will choose Interface
+let drwaRectangle=(point:Point)=>{
+
+}
+
+let draw1 =(point:{x:number,y:number,z:number}) =>{
+    point.x
+}
+let someFunction =() =>{
+
+}
+
+// draw({x:1,y:2,z:3, draw:someFunction});
+
+
+// 6 Class
+
+/// Law  Cohison
+
+class Point {
+
+    x!: number;
+    y!:number
+    z!:number;
+    draw = () => {
+       console.log('X:' +this.x,'Y:' +this.y, 'Z:' +this.z)
+    };
+    // drawRectangles: () => {
+    //     draw()
+    }
+// }
+
+// Memory Object Craee new 
+let shape:Point =new Point() ;
+shape.x=5;
+shape.y=10;
+shape.z=12;
+shape.draw();
+
+
+
+<mat-form-field>
+  <input matInput type="text" [(ngModel)]="yourModel">
+</mat-form-field> 
+
+<mat-form-field>
+  <mat-select [(ngModel)]="yourModel">
+    <mat-option value="option1">Option 1</mat-option>
+    <mat-option value="option2">Option 2</mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+<mat-card class="register">
+      <mat-card-header>
+        <mat-card-title class="let1">Login</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="inp">
+	  
+	   </mat-card-content>
+    </mat-card> 
+https://m3.material.io/components/lists/overview#0519c023-de10-4062-9e4d-4c6918245b1a
+
+Frist Project Create  --  ng new IFF --no-standlone=false
+ng new sidebar --no-standalone
+Second Service Create --  ng g s Iff
+Three Install Json    --  npm install -g json-server
+4                     --  npm run json-server --watch Register.json port 3004
+
+5. Pdf ------------ npm install jspdf html2canvas
+
+
+5 Run application     -- ng serve
+
+6 
+
+IFF Modle ts Create:
+  
+  
+1. export Class IFF{
+        empId : number;
+		empName : String;
+		empDepartment :String;
+ }
+ 
+2. app.component.html
+
+
+  // Insert :
+  
+ <form #myForm="ngForm">
+ <input  type="text" class="form-Control" name="empId" #stuId="ngModel" ng Model Requried>
+ <input  type="text" class="form-Control" name="empName" #empName="ngModel" ng Model Requried>
+ <input type="text" class="form-control" name="empDepartment" #empDepartment="ngModel" ng Model Red>
+ <button  (click)="InsertStudent(myForm.value)></button>
+ </form>
+ 
+ // Display :
+ 
+    <table class="table table-striped">  
+    <thead>  
+        <tr>  
+          <th>ID</th>  
+          <th>Name</th>  
+          <th>Email</th>  
+        </tr>  
+    </thead>  
+	
+    <tbody>  
+      <tr *ngFor="let employee of empList">  
+        <td>{{ employee.empId}}</td>  
+        <td>{{ employee.empName }}</td>  
+        <td>{{ employee.empDepartment }}</td>  
+      </tr>  
+    </tbody> 
+    </table>  
+
+3.app.component.ts
+
+
+export class AppComponent{
+  
+  
+  employees!:Employee;
+  emplist :Employee[]=[];
+  result!:any;
+  
+  constructot(private iffService:IffService){
+  this.employees=new Employee();
+  this.getAllEmployye();
+  }
+  
+  insetEmployee(data:any){
+  this.employees.empId=data.Employee();
+  this.employees.empName=data.Employee();
+  this.employees.empDepartment=data.Employee();
+  this.return = this.iffService.InsertEmployee(this.employees);
+  this.getAllEmployye();
+  }
+  
+  getAllEmployye()
+  { 
+  this.iffService.getAllEmployees().subscribe(employee => {this.empList = employees ;});
+  }
+  ;
+  
+ 4.Service :
+ 
+ 
+ JSonUrl = 'http://localhost:3004/Employeeschool'
+ constructor(private http:HttpClient)
+ InsertEmployee(employees:Employee) {
+    retrun this.http.post(this.JSonUrl, employees).subscribe();
+ }
+ 
+ 
+ getAllEmployees(){
+       retrun this.http.get<Employee[]>(this.JSonUrl);
+ }
+ 
+ 
+ 
+ employee.Json
+ ({
+ 'employee'
+ [
+  "empId" : "1";
+  "empname" : "Muthu";
+  "empDepartment : "DECE";
+ ]})
+ 
+ 
+ 
+ 
+ Employee.ts
+ 
+ class Export Employee(
+  
+  EmpId : Number;
+  EmpName : String;
+  EmpDepartment : String;
+ )
+ 
+ Html :
+ 
+ <div>
+ 
+<form #myForm="ngForm">
+<label class="form-label">Employee Id : </label>
+<input text="type" class="form-control" name="EmpId" #EmpId="ngModel" ngModel required>
+<br>
+
+<label class="form-label">Employee Name :</label>
+<input text="type" class="from-control" name="EmpName" #EmpName="ngModel" ngModel required>
+<br>
+
+<label class="form-label">Employee Department :</label>
+<input text="type" class="from-control" name="EmpDepartment" #EmpDepartment="ngModel" ngModel required>
+<br>
+<button (click)="InsertEmployee('myform.value')"></button>
+</form>  
+
+</div>
+
+<table>
+<thead>
+</thead>
+
+<tbod>
+
+</table>
+
+
+CSS:
+
+ th{
+ border : ipx solid;
+ backgroudColor:;
+ }
+ td:nth-child(odd){
+ }
+ 
+ 
+ ng new DepartmentalShopUI --no-standalone
+
+balancestatement
+ 
+ ts:
+ 
+ employees :Employee;
+ 
+ empList : Employee[] =[];
+ result:any;
+ 
+ 
+ 
+ constructor(private dataservice :Service){
+ this.employees=new Employee();
+ this.getAllEmployees();
+ }
+ 
+ InsetEmployee(data:any){
+ Object.assign(this.emplopyees , data);
+ this.result=this.dataservice.insert(this.employees);
+ }
+ 
+ getAllEmployees(){
+ this.dataservice.alldata().subcibe(employeess => this.empList = emplopyees);
+ }
+ 
+ 
+ SERVICE:
+ 
+ JSonUrl : 'localhost://http://EmployeeData'
+ 
+ constructor(private http: httpClient){}
+ 
+ insert(emplopyees:Employee){
+ 
+ this.http.post(this.JSonUrl ,employees).subcibe();
+ }
+ alldata = () => this.http.get<Employee []>(this.JSonUrl);
+ 
+ 
+ GENERIC:
+ 
+1.GENERIC INTERFACE
+   Generics can also be used with interfaces:
+   
+   interface Pair<T, U> {
+    first: T;
+    second: U;
+       }
+
+    let pair: Pair<string, number> = {
+    first: "Hello",
+    second: 42
+     };
+
+   console.log(pair); // Output: { first: 'Hello', second: 42 }
+
+ 
+2. GENERIC CLASS :
+
+   It can be also create generic classes. Here’s an example:
+class Box<T> {
+
+    private value: T;
+
+    constructor(value: T) {
+        this.value = value;
+    }
+
+    getValue(): T {
+        return this.value;
+      }
+    }
+
+let box1 = new Box<string>("Hello, World!");
+let box2 = new Box<number>(123);
+
+
+console.log(box1.getValue()); // Output: Hello, World!
+console.log(box2.getValue()); // Output: 123
+
+INTERFACE :
+
+interface Person {
+    name: string;
+    age: number;
+    greet(): void;
+}
+
+const person: Person = {
+    name: "John",
+    age: 30,
+    greet() {
+        console.log(`Hello, my name is ${this.name}`);
+    }
+};
+
+   person.greet(); // Output: Hello, my name is John
+
+ 
+OPTIONAL PROPERTIES INTERFACE:
+
+interface Car {
+    brand: string;
+    model: string;
+    year?: number; // Optional property
+}
+
+const myCar: Car = {
+    brand: "Toyota",
+    model: "Corolla"
+};
+
+console.log(myCar); // Output: { brand: 'Toyota', model: 'Corolla' }
+
+EXTENDING INTERFACES :
+
+interface Animal {
+
+    name: string;
+    age: number;
+	
+}
+
+interface Dog extends Animal {
+    breed: string;
+}
+
+const myDog: Dog = {
+    name: "Buddy",
+    age: 5,
+    breed: "Golden Retriever"
+};
+
+console.log(myDog); // Output: { name: 'Buddy', age: 5, breed: 'Golden Retriever' }
+
+
+
+
+Sure! Type aliases in TypeScript allow you to create a new name for an existing type. This can make your code more readable and easier to manage. Here are some examples:
+
+Basic Type Alias:
+
+You can create a type alias for a primitive type:
+
+TypeScript :
+
+type Name = string;
+
+let firstName: Name = "John";
+let lastName: Name = "Doe";
+
+console.log(firstName); // Output: John
+console.log(lastName); // Output: Doe
+
+
+type Student = string | number;
+
+let details: Student;
+
+details = "abc123"; // Valid
+details = 123;      // Valid
+// userId = true;  // Error: Type 'boolean' is not assignable to type 'ID'
+
+console.log(details); // Output: 123
+
+
+type Name : string;
+
+let firstName : Name = "Muthu"
+let LastName :  Name = "Raj"
+console.log(firstName);
+
+type Student : string| number;
+
+let department : Student;
+
+  department = " ECE";
+  department = 123;
+  
+  
+  // Generics
+  
+  class Box <h>{
+    private value : h;
+	
+	
+	constructor(value :h){
+	this.value =value;
+	}
+	
+	getValue() : T{
+	retrun this.value();
+	}
+	
+	let box1 = new Box<string>("Hello, World!");
+    let box2 = new Box<number>(123);
+	
+  }
+  
+  // Interface 
+  
+  interface Customer{
+     cusname: string;
+	 cusSalary!:number;
+  }
+  
+  interface  department extends Customer{
+    cusdepartment : string;
+  }
+  
+  
+  const Main : department ={
+  cusname = "Muthu"
+  cusSalary = 234;
+  cusdepartment = Ece;
+  }
+  console.log(Main);
+  
+  
+  let color;
+  
+  color ; Red;
+  
+  let data : ( <string> color)extends('d');
+  let data : (color as string).exetnds('d');
+  
+  
+  type Admin = { role: 'admin'; };
+type User = { name: string; };
+
+type AdminUser = Admin & User; // Intersection
+type AdminOrUser = Admin | User; // Union
+
+const adminUser: AdminUser = { role: 'admin', name: 'John' };
+const adminOrUser: AdminOrUser = { name: 'Jane' }; // Or { role: 'admin' }
+
+
+
+Intersectio                  - &
+Union                          |
+
+
+
+
+
+1.Fr
+
+
+
+Question  1:
+
+Html:
+<div>
+  <section class="layout-row align-items-center justify-content-between">
+    <label>Celsius: </label>
+    <input type="number" class="large" (ngModelChange)="convertToFahrenheit($event)" data-test-id="celsius-input"/>
+  </section>
+
+  <section class="layout-row align-items-center justify-content-between">
+    <label>Fahrenheit: </label>
+    <input type="number" class="large" (ngModelChange)="convertToCelsius($event)" data-test-id="fahrenheit-input"/>
+  </section>
+</div>
+
+
+ts :
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-temperature-converter',
+  templateUrl: './temperature-converter.component.html',
+  styleUrls: ['./temperature-converter.component.css']
+})
+export class TemperatureConverter {
+  fah: number | null = null;
+  cel: number | null = null;
+
+  // Convert Celsius to Fahrenheit :
+  
+  convertToFahrenheit(celsius: number): void {
+    if (celsius != null) {
+      this.fah = (celsius * 9 / 5) + 32;
+    } else {
+      this.fah = null;
+    }
+  }
+
+  // Convert Fahrenheit to Celsius :
+  
+  convertToCelsius(fahrenheit: number): void {
+    if (fahrenheit != null) {
+      this.cel = (fahrenheit - 32) * 5 / 9;
+    } else {
+      this.cel = null;
+    }
+  }
+}
+
+
+
+UNIT : TESTING :
+
+
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TemperatureConverter } from './temperature-converter.component';
+import { FormsModule } from '@angular/forms';
+
+describe('TemperatureConverter', () => {
+  let component: TemperatureConverter;
+  let fixture: ComponentFixture<TemperatureConverter>;
+  let celsiusInput: HTMLInputElement;
+  let fahrenheitInput: HTMLInputElement;
+
+  const setInputValue = async (inputElement: HTMLInputElement, value: number) => {
+    inputElement.value = value.toString();
+    inputElement.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
+-  };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [FormsModule],
+      declarations: [TemperatureConverter]
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(TemperatureConverter);
+    component = fixture.componentInstance;
+    celsiusInput = fixture.debugElement.nativeElement.querySelector('[data-test-id="celsius-input"]');
+    fahrenheitInput = fixture.debugElement.nativeElement.querySelector('[data-test-id="fahrenheit-input"]');
+  });
+
+  it('should convert Celsius to Fahrenheit correctly', async () => {
+    await setInputValue(celsiusInput, 100);
+    expect(Number(fahrenheitInput.value)).toBeCloseTo(212, 1);
+  });
+
+  it('should convert Fahrenheit to Celsius correctly', async () => {
+    await setInputValue(fahrenheitInput, 212);
+    expect(Number(celsiusInput.value)).toBeCloseTo(100, 1);
+  });
+
+  it('should perform a series of conversions', async () => {
+    await setInputValue(celsiusInput, 0);
+    expect(Number(fahrenheitInput.value)).toBeCloseTo(32, 1);
+
+    await setInputValue(fahrenheitInput, 32);
+    expect(Number(celsiusInput.value)).toBeCloseTo(0, 1);
+
+    await setInputValue(celsiusInput, 37);
+    expect(Number(fahrenheitInput.value)).toBeCloseTo(98.6, 1);
+
+    await setInputValue(fahrenheitInput, 98.6);
+    expect(Number(celsiusInput.value)).toBeCloseTo(37, 1);
+  });
+});
+
+
+2. Weather Condition :
+
+Html :
+<div class="weather-data layout-column align-items-center mt-50">
+  <section class="layout-row align-items-center justify-content-center">
+    <label>Enter City: </label>
+    <input
+      type="text"
+      class="large ml-30"
+      placeholder="Seattle"
+      data-test-id="app-input"
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="onChange($event)"
+    />
+  </section>
+  <section class="mt-20 layout-row align-items-center justify-content-center">
+    <div class="card outlined">
+      <div
+        *ngIf="searchedData"
+        data-test-id="weather-details"
+        class="card-text pt-10 layout-row justify-content-between"
+      >
+        <div class="mt-20 outlined">
+          <button class="icon-only mx-2">
+            <i class="material-icons">wb_sunny</i>
+          </button>
+          <span data-test-id="output-temperature" class="temperature">
+            {{ searchedData.temperature }}
+          </span>
+        </div>
+        <div class="mr-15 mb-15">
+          <div data-test-id="output-wind" class="mt-20">
+            Wind: {{ searchedData.wind }}
+          </div>
+          <div data-test-id="output-humidity" class="mt-20">
+            Humidity: {{ searchedData.humidity }}
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="searchTerm && !searchedData"
+        data-test-id="no-results"
+        class="card-text"
+      >
+        No Results Found
+      </div>
+    </div>
+  </section>
+</div>
+
+
+ts :
+
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'weather-details',
+  templateUrl: './weatherDetails.component.html',
+  styleUrls: ['./weatherDetails.component.scss'],
+})
+export class WeatherDetails {
+  @Input() weatherData: Data[] = [];
+  searchTerm = '';
+  searchedData?: Data;
+
+  onChange(value: string | null) {
+    this.searchedData = this.weatherData.find(
+      ({ name }) => name.toLowerCase() === value?.toLowerCase()
+    );
+  }
+}
+
+interface Data {
+  name: string;
+  temperature: string;
+  wind: string;
+  humidity: string;
+}
+
+
+testing:
+
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { WeatherDetails } from './weatherDetails.component';
+
+describe('WeatherDetails', () => {
+  let component: WeatherDetails;
+  let fixture: ComponentFixture<WeatherDetails>;
+  let compiled: HTMLElement;
+
+  const getByTestId = (testId: string) =>
+    compiled.querySelector(`[data-test-id="${testId}"]`);
+
+  const setInputValue = async (value: string) => {
+    const input = getByTestId('app-input') as HTMLInputElement;
+    input.value = value;
+    input.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
+    fixture.detectChanges();
+  };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [FormsModule],
+      declarations: [WeatherDetails],
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(WeatherDetails);
+    component = fixture.componentInstance;
+    compiled = fixture.debugElement.nativeElement;
+
+    // Sample weather data for testing
+    component.weatherData = [
+      { name: 'Seattle', temperature: '20°C', wind: '5 km/h', humidity: '80%' },
+      { name: 'New York', temperature: '25°C', wind: '10 km/h', humidity: '60%' },
+    ];
+
+    fixture.detectChanges();
+  });
+
+  it('should display weather details for a valid city', async () => {
+    await setInputValue('Seattle');
+    expect(getByTestId('output-temperature')?.textContent).toContain('20°C');
+    expect(getByTestId('output-wind')?.textContent).toContain('5 km/h');
+    expect(getByTestId('output-humidity')?.textContent).toContain('80%');
+  });
+
+  it('should display "No Results Found" for an invalid city', async () => {
+    await setInputValue('InvalidCity');
+    expect(getByTestId('no-results')).toBeTruthy();
+  });
+});
+
+Reactive Form Modulations:
+
+
+app.component.html:
+
+<div style="text-align:center">
+  <h1>Reactive Form Example</h1>
+
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <label for="name">Name:</label>
+    <input id="name" formControlName="name" />
+    
+    <label for="email">Email:</label>
+    <input id="email" formControlName="email" />
+
+    <button type="submit" [disabled]="myForm.invalid">Submit</button>
+  </form>
+
+  <div *ngIf="submittedData">
+    <h2>Submitted Data</h2>
+    <p><strong>Name:</strong> {{ submittedData.name }}</p>
+    <p><strong>Email:</strong> {{ submittedData.email }}</p>
+  </div>
+</div>
+
+app.component.ts:
+
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DataService } from './data.service';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit {
+  myForm: FormGroup;
+  submittedData: any;
+
+  constructor(private fb: FormBuilder, private dataService: DataService) {}
+
+  ngOnInit() {
+    // Initialize the form
+    this.myForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]]
+    });
+    
+    // Load submitted data
+    this.submittedData = this.dataService.getData();
+  }
+
+  onSubmit() {
+    if (this.myForm.valid) {
+      const formData = this.myForm.value;
+      this.dataService.setData(formData);
+      this.submittedData = this.dataService.getData(); // Refresh the displayed data
+      this.myForm.reset(); // Reset form after submission
+    }
+  }
+}
+
+Service:
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DataService {
+  private data: any = null;
+
+  constructor() {}
+
+  setData(data: any) {
+    this.data = data;
+  }
+
+  getData() {
+    return this.data;
+  }
+}
+
+
+28.
+How do you choose an element from a component template?
+
+Hide Answer :
+
+To directly accesses items in the view, use the @ViewChild directive. Consider an input item with a reference.
+
+<input #example>
+
+and construct a view child directive that is accessed in the ngAfterViewInit lifecycle hook
+
+@ViewChild('example') input;
+
+ngAfterViewInit() {
+console.log(this.input.nativeElement.value);
+}
+
+
+<htm>
+<form #myForm="ngForm">
+<input type="text" class="form-Control" name="empId" #empId="ngModel" ngModel required/>
+<input type="text" class="form-Control" name="empName" #empName="ngModel" ngModel required/>
+<button btn="btn-click"  (click)="Insert("myForm.value")>
+</form>
+
+<tabel>
+<thead>
+<tr>
+<th>EmpId>
+<th>EmpName>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor='let employee of empList' value=("{{employee.employeeId"}});
+
+<td>
+{{employye.EmpId}}
+<td>
+</tr>
+</tbody>
+</table>
+
+
+ts:
+
+employees :Employee;
+empList : Employee [] =[];
+result!:any;
+
+constructor(private dataser:Dataservice){
+  this.employees=new Employee;
+  this.getAll();
+}
+
+Insert(data:any){
+Object.assign(this.employees , data);
+this.result=this.dataser.insertData(this.employee);
+this.getaAll();
+}
+
+
+getaAll(){
+this.dataser.GetData().subcibe(employees => this.empList = employees);
+}
+
+servie:
+
+priavate JsonUrl: "localhost://host/:3004";
+
+private(http: HttpClient){}{
+
+insertData(employees:Employee){
+return this.http.post.(Jsonurl ,employees).subcibe();
+}
+
+alldata = () => this.http.get<Employee []>(this.JSonUrl);
+
+
+
+RecativeForm:
+
+Html:
+
+<div>
+<form (FromGruop)="myForm" (ngSubmit)="Onsumbmit">
+<input type="text"  class="form-control id="empId">
+<input type="text"  class="form-control id="empName">
+<button  [disabled]="myForm.Invaild">
+</div>
+
+<div ngFor="submittedData">
+<p>{{submittedData.empId}}</p>
+<p>{{submittedData.empName}}</p>
+</div>
+
+ts:
+
+submittedData!:any;
+myForm: FormGroup;
+
+constructor(private fb:FromGruop,dataservice:DataService){
+
+
+ngOnClick(){
+this.myFrom = this.fb.group({
+
+name:['',vaildators required];
+email:['',vaildators required,vaildators email];
+});
+
+this.submittedData();
+}
+
+Onsumbmit(){
+if(this.myForm.valid){
+
+Con formData=new myForm();
+
+this.dataservice.getData(formData);
+this.submittedData=this.dataservice.getaData();
+}
+}
+} 
+
+
+setDate(data:any){
+this.Data=Data;
+}
+getDate(){
+return.this.data
+}
+
+
+Observales:
+
+
+obs=new Observales(observer =>{
+console.log("");
+
+
+
+})
+
+
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  {
+    path: 'features',
+    loadChildren: () => import('./features/features.module').then(m => m.FeaturesModule)
+  },
+  // Other routes here
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+import { Component, OnInit } from '@angular/core';
+import { OrderService } from './order.service';
+import { Order, Product } from './order.model';
+import { MatTableDataSource } from '@angular/material/table';
+import { FormGroup, FormControl } from '@angular/forms';
+
+@Component({
+  selector: 'app-order',
+  templateUrl: './order.component.html',
+  styleUrls: ['./order.component.css']
+})
+export class OrderComponent implements OnInit {
+  order: Order = {
+    orderId: 0,
+    orderDate: new Date(),
+    customerName: '',
+    customerMobile: '',
+    items: []
+  };
+
+  products: Product[] = [];
+  dataSource = new MatTableDataSource<Product>();
+  displayedColumns: string[] = ['productId', 'productTitle', 'pricePerUnit', 'totalUnits', 'totalCost', 'action'];
+  totalAmount = 0;
+  addItemForm = new FormGroup({
+    productId: new FormControl(null),
+    quantity: new FormControl(null)
+  });
+
+  constructor(private orderService: OrderService) { }
+
+  ngOnInit(): void {
+    this.orderService.getOrders().subscribe(orders => {
+      this.order = orders[0];
+      this.orderService.getProducts().subscribe(products => {
+        this.products = products;
+      });
+    });
+  }
+
+  addItem(): void {
+    const selectedProductId = this.addItemForm.value.productId;
+    const quantity = this.addItemForm.value.quantity;
+    const product = this.products.find(product => product.productId === selectedProductId);
+    if (product) {
+      const existingItem = this.order.items.find(item => item.productId === selectedProductId);
+      if (existingItem) {
+        existingItem.totalUnits += quantity;
+        existingItem.totalCost = existingItem.pricePerUnit * existingItem.totalUnits;
+      } else {
+        this.order.items.push({
+          productId: selectedProductId,
+          productTitle: product.productTitle,
+          pricePerUnit: product.pricePerUnit,
+          totalUnits: quantity,
+          totalCost: product.pricePerUnit * quantity
+        });
+      }
+      this.updateTotalAmount();
+      this.addItemForm.reset();
+      this.dataSource.data = this.order.items;
+    }
+  }
+
+  removeItem(item: Product): void {
+    const index = this.order.items.indexOf(item);
+    if (index > -1) {
+      this.order.items.splice(index, 1);
+      this.updateTotalAmount();
+      this.dataSource.data = this.order.items;
+    }
+  }
+
+  updateTotalAmount(): void {
+    this.totalAmount = this.order.items.reduce((total, item) => total + item.totalCost, 0);
+  }
+
+  saveSellDetails(): void {
+    this.orderService.saveOrder(this.order).subscribe(() => {
+      console.log('Order saved successfully!');
+    });
+  }
+
+  downloadPDF(): void {
+    // Implement PDF download functionality here
+  }
+
+  sendMessageToCustomer(): void {
+    // Implement SMS sending functionality here
+  }
+}
+
+
+
+import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { FormControl } from '@angular/forms';
+import { Product, OrderItem } from './models'; // Assuming you have models for these
+import { ProductService } from './product.service'; // Assuming you have a service to fetch products
+
+@Component({
+  selector: 'app-add-items',
+  templateUrl: './add-items.component.html',
+  styleUrls: ['./add-items.component.css']
+})
+export class AddItemsComponent implements OnInit {
+  displayedColumns: string[] = ['productID', 'productName', 'pricePerUnit', 'quantity', 'totalCost', 'action'];
+  dataSource = new MatTableDataSource<OrderItem>();
+
+  products: Product[] = [];
+  selectedProduct: Product | null = null;
+  quantity = new FormControl(0);
+  orderId = 106; // Replace with your logic for order ID
+
+  constructor(private productService: ProductService) {}
+
+  ngOnInit(): void {
+    this.fetchProducts();
+  }
+
+  fetchProducts(): void {
+    this.productService.getProducts().subscribe(products => {
+      this.products = products;
+    });
+  }
+
+  selectProduct(product: Product): void {
+    this.selectedProduct = product;
+  }
+
+  addItem(): void {
+    if (this.selectedProduct && this.quantity.value > 0) {
+      const newOrderItem: OrderItem = {
+        productID: this.selectedProduct.productID,
+        productName: this.selectedProduct.productName,
+        pricePerUnit: this.selectedProduct.pricePerUnit,
+        quantity: this.quantity.value,
+        totalCost: this.selectedProduct.pricePerUnit * this.quantity.value
+      };
+
+      this.dataSource.data = [...this.dataSource.data, newOrderItem];
+      this.quantity.setValue(0);
+      this.selectedProduct = null;
+    }
+  }
+
+  // You'll need to implement the logic for saving the order details
+  saveOrder(): void {
+    // Implement logic to send order data to your backend
+    console.log('Saving order details...');
+    // ...
+  }
+
+  // Handle the remove item action
+  removeItem(orderItem: OrderItem): void {
+    const index = this.dataSource.data.indexOf(orderItem);
+    if (index > -1) {
+      this.dataSource.data.splice(index, 1);
+      this.dataSource._updateChangeSubscription();
+    }
+  }
+}
+
+
+<div class="container">
+  <h2>Order Details</h2>
+
+  <div class="order-details">
+    <p>Order ID: {{ orderId }}</p>
+    <p>Customer Name: Kaushal</p>
+    <p>Customer Mobile: 39857348</p>
+    <p>Order Date: 20 Oct 2021 12:03 AM</p>
+  </div>
+
+  <h2>Add Items</h2>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Select Product</mat-label>
+    <mat-select [(value)]="selectedProduct">
+      <mat-option *ngFor="let product of products" [value]="product">
+        {{ product.productName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Enter Quantity</mat-label>
+    <input matInput type="number" [formControl]="quantity">
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="addItem()">Add Item</button>
+
+  <h2>Order Items</h2>
+
+  <table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="productID">
+      <th mat-header-cell *matHeaderCellDef> Product ID </th>
+      <td mat-cell *matCellDef="let item"> {{ item.productID }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="productName">
+      <th mat-header-cell *matHeaderCellDef> Product Name </th>
+      <td mat-cell *matCellDef="let item"> {{ item.productName }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pricePerUnit">
+      <th mat-header-cell *matHeaderCellDef> Price Per Unit </th>
+      <td mat-cell *matCellDef="let item"> {{ item.pricePerUnit }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef> Quantity </th>
+      <td mat-cell *matCellDef="let item"> {{ item.quantity }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalCost">
+      <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+      <td mat-cell *matCellDef="let item"> {{ item.totalCost }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let item">
+        <button mat-icon-button (click)="removeItem(item)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <button mat-raised-button color="primary" (click)="saveOrder()">Save Order Details</button>
+</div>
+
+-----------------------------------------------------------------------------
+
+1.
+
+
+<mat-card class="customer-card" *ngIf="!loading && order">
+  <mat-card-header>
+    <mat-card-title>Customer and Order Details</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="order-details">
+      <div class="order-detail">
+        <label for="orderId">Order ID:</label>
+        {{ order.orderId }}
+      </div>
+      <div class="order-detail">
+        <label for="orderDate">Order Date:</label>
+        {{ order.orderDate ? (order.orderDate | date:'shortDate') : 'Date not available' }}
+      </div>
+    </div>
+    <div class="order-details">
+      <div class="order-detail">
+        <label for="customerName">Customer Name:</label>
+        {{ order.customerName }}
+      </div>
+      <div class="order-detail">
+        <label for="customerMobile">Customer Mobile:</label>
+        {{ order.customernumber }}
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<div *ngIf="loading" class="loading-spinner">
+  <mat-spinner></mat-spinner>
+  Loading...
+</div>
+
+<mat-card class="add-items-card">
+  <mat-card-header>
+    <mat-card-title>Add Items into Cart</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="add-item">
+      <mat-form-field appearance="fill">
+        <mat-label>Select Product</mat-label>
+        <mat-select [(ngModel)]="addItemForm.controls['productId'].value">
+          <mat-option *ngFor="let product of products" [value]="product.productId">
+            {{ product.productTitle }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Enter Quantity</mat-label>
+        <input matInput type="number" min="0" [(ngModel)]="addItemForm.controls['quantity'].value">
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="addItem()">Add Item</button>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="order-item-details-card">
+  <mat-card-header>
+    <mat-card-title>Order Item Details</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="productId">
+        <th mat-header-cell *matHeaderCellDef> Product ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.productId}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="productTitle">
+        <th mat-header-cell *matHeaderCellDef> Product Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.productTitle}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="pricePerUnit">
+        <th mat-header-cell *matHeaderCellDef> Price Per Unit </th>
+        <td mat-cell *matCellDef="let element"> {{element.pricePerUnit | currency}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="totalUnits">
+        <th mat-header-cell *matHeaderCellDef> Total Units </th>
+        <td mat-cell *matCellDef="let element"> {{element.totalUnits}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="totalCost">
+        <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+        <td mat-cell *matCellDef="let element"> {{element.totalCost | currency}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="warn" (click)="removeItem(element)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <p>Total Amount: {{totalAmount | currency}}</p>
+    <button mat-raised-button color="primary" (click)="saveSellDetails()">Save Sell Details</button>
+
+    <button mat-raised-button color="accent" (click)="downloadPDF()">Download PDF</button>
+
+  </mat-card-content>
+
+</mat-card>
+
+
+
+
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { ProductService } from '../product.service';
+import { OrderService } from '../order.service';
+import { Product } from '../model/product';
+import { OrderItem } from '../model/orderitem';
+
+@Component({
+  selector: 'app-userdetails',
+  templateUrl: './userdetails.component.html',
+  styleUrls: ['./userdetails.component.css']
+})
+export class UserDetailsComponent implements OnInit {
+
+  order: any;
+  products: Product[] = [];
+  addItemForm: FormGroup;
+  dataSource = new MatTableDataSource<OrderItem>([]);
+  displayedColumns: string[] = ['productId', 'productTitle', 'pricePerUnit', 'totalUnits', 'totalCost', 'action'];
+  totalAmount: number = 0;
+  loading: boolean = true;
+
+  constructor(
+    private fb: FormBuilder,
+    private userService: OrderService,
+    private productService: ProductService
+  ) {
+    this.addItemForm = this.fb.group({
+      productId: [null],
+      quantity: [0]
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadProductList();
+    this.calculateTotalAmount();
+  }
+
+  private loadProductList(): void {
+    this.productService.getProducts().subscribe({
+      next: (data) => {
+        this.products = data;
+      },
+      error: (error) => {
+        console.error('Error loading products:', error);
+      }
+    });
+  }
+
+  addItem(): void {
+    const formValue = this.addItemForm.value;
+    const productId = formValue.productId;
+    const quantity = formValue.quantity;
+
+    if (productId && quantity > 0) {
+      this.productService.getProductById(productId).subscribe({
+        next: (product) => {
+          if (product) {
+            const pricePerUnit = product.costPerItem || 0;
+            const totalUnits = quantity || 0;
+            const totalCost = pricePerUnit * totalUnits;
+
+            const newItem: OrderItem = {
+              productId: product.productId,
+              productTitle: product.productTitle,
+              pricePerUnit: pricePerUnit,
+              totalUnits: totalUnits,
+              totalCost: totalCost
+            };
+
+            this.dataSource.data = [...this.dataSource.data, newItem];
+            this.calculateTotalAmount();
+
+            // Reset form fields
+            this.addItemForm.reset({
+              productId: null,
+              quantity: 0
+            });
+          } else {
+            console.error('Product not found');
+          }
+        },
+        error: (error) => {
+          console.error('Error fetching product:', error);
+        }
+      });
+    } else {
+      console.error('Invalid product or quantity');
+    }
+  }
+
+  removeItem(item: OrderItem): void {
+    this.dataSource.data = this.dataSource.data.filter(i => i !== item);
+    this.calculateTotalAmount();
+  }
+
+  private calculateTotalAmount(): void {
+    this.totalAmount = this.dataSource.data.reduce((acc, item) => acc + item.totalCost, 0);
+  }
+
+  saveSellDetails(): void {
+    const orderDetails = {
+      orderId: 12345, // This should be set to the actual orderId
+      items: this.dataSource.data,
+      totalAmount: this.totalAmount
+    };
+    this.userService.saveOrderDetails(orderDetails).subscribe({
+      next: (response) => {
+        console.log('Order details saved:', response);
+      },
+      error: (error) => {
+        console.error('Error saving order details:', error);
+      }
+    });
+  }
+
+  downloadPDF(): void {
+    // PDF generation logic
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1. Good Line:
+
+<div class="container">
+<mat-card class="customer-card" *ngIf="!loading && order">
+  <mat-card-header>
+    <mat-card-title>Customer and Order Details</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="order-details">
+      <div class="order-detail">
+        <label for="orderId">Order ID:</label>
+        {{ order.orderId }}
+      </div>
+      <div class="order-detail">
+        <label for="orderDate">Order Date:</label>
+        {{ order.orderDate ? (order.orderDate | date:'shortDate') : 'Date not available' }}
+      </div>
+    </div>
+    <div class="order-details">
+      <div class="order-detail">
+        <label for="customerName">Customer Name:</label>
+        {{ order.customerName }}
+      </div>
+      <div class="order-detail">
+        <label for="customerMobile">Customer Mobile:</label>
+        {{ order.customernumber }}
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<div *ngIf="loading" class="loading-spinner">
+  <mat-spinner></mat-spinner>
+  Loading.....
+</div>
+
+
+
+<mat-card class="add-items-card">
+  <mat-card-header>
+    <mat-card-title>Add Items into Cart</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="add-item">
+      <mat-form-field appearance="fill">
+        <mat-label>Product Name</mat-label>
+        <mat-select [(ngModel)]="selectedProductId">
+          <mat-option *ngFor="let product of products" [value]="product.productId">
+            {{ product.productTitle }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-form-field appearance="fill">
+        <mat-label>Enter Quantity</mat-label>
+        <input matInput type="number" min="0" [(ngModel)]="addItemForm.controls['quantity'].value">
+      </mat-form-field>
+      
+      <button mat-raised-button color="primary" (click)="addItem()">Add Item</button>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="order-item-details-card">
+  <mat-card-header>
+    <mat-card-title>Order Item Details</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="productId">
+        <th mat-header-cell *matHeaderCellDef> Product ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.productId}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="productTitle">
+        <th mat-header-cell *matHeaderCellDef> Product Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.productTitle}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="pricePerUnit">
+        <th mat-header-cell *matHeaderCellDef> Price Per Unit </th>
+        <td mat-cell *matCellDef="let element"> {{element.pricePerUnit | currency}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="totalUnits">
+        <th mat-header-cell *matHeaderCellDef> Total Units </th>
+        <td mat-cell *matCellDef="let element"> {{element.totalUnits}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="totalCost">
+        <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+        <td mat-cell *matCellDef="let element"> {{element.totalCost | currency}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="warn" (click)="removeItem(element)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <p>Total Amount: {{totalAmount | currency}}</p>
+    <button mat-raised-button color="primary" (click)="saveSellDetails()">Save Sell Details</button>
+
+    <button mat-raised-button color="accent" (click)="downloadPDF()">Download PDF</button>
+
+  </mat-card-content>
+
+</mat-card>
+
+
+
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+
+import { ProductService } from '../product.service';
+import { OrderService } from '../order.service';
+import { Product } from '../model/product';
+import { OrderItem } from '../model/orderitem';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { Order } from '../model/order';
+
+@Component({
+  selector: 'app-userdetails',
+  templateUrl: './userdetails.component.html',
+  styleUrls: ['./userdetails.component.css']
+})
+export class UserDetailsComponent implements OnInit {
+  order!:any
+  orderlist :OrderItem []= [];
+  products: Product[] = [];
+  addItemForm!: FormGroup;
+  dataSource = new MatTableDataSource<OrderItem>([]);
+
+  displayedColumns: string[] = ['productId', 'productTitle', 'pricePerUnit', 'totalUnits', 'totalCost', 'action'];
+  totalAmount: number = 0;
+  loading: boolean = true;
+  orderId!: number;
+
+  selectedProductId: number = 0;
+  quantity: number = 0;
+
+  // addForm!: FormGroup;
+
+  // quantity = new FormControl(0);
+  totalUnits: any;
+  
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private userService: OrderService,
+    private productService: ProductService
+  ) {
+    this.addItemForm = this.fb.group({
+      productId: [''],
+      quantity: [0],
+    });
+  }
+  
+
+  ngOnInit(): void {
+    this.loadProductList();
+    this.calculateTotalAmount();
+    this.fetchOrderDetails();
+  }
+  private fetchOrderDetails(): void {
+    const id = this.route.snapshot.paramMap.get('id')!;
+    this.userService.getCustomerById(id).subscribe({
+      next: (response) => {
+        this.order = response;
+        if (this.order && typeof this.order.orderDate === 'string') {
+          this.order.orderDate = new Date(this.order.orderDate);
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching customer details:', error);
+        this.loading = false;
+      }
+    });
+  }
+
+  private loadProductList(): void {
+    this.productService.getProducts().subscribe({
+      next: (data) => {
+        this.products = data;
+      },
+      error: (error) => {
+        console.error('Error loading products:', error);
+      }
+    });
+  }
+  addItem(): void {
+    const formValue = this.addItemForm.value;
+    const productId = formValue.productId;
+    const quantity = formValue.quantity;
+
+    console.log('Form Value:', formValue);
+
+    // Fetch product details by productId
+    this.productService.getProductById(productId).subscribe({
+      next: (product) => {
+        console.log('Fetched Product:', product);
+
+        if (product) {
+          const pricePerUnit = product.costPerItem || 0;
+          const totalUnits = quantity || 0;
+          const totalCost = pricePerUnit * totalUnits;
+
+          const newItem: OrderItem = {
+            productId: product.productId,  // Use productId
+            productTitle: product.productTitle,
+            pricePerUnit: pricePerUnit,
+            totalUnits: totalUnits,
+            totalCost: totalCost
+          };
+
+          console.log('New Item:', newItem);
+
+          // Update the dataSource
+          this.dataSource.data = [...this.dataSource.data, newItem];
+          this.calculateTotalAmount();
+
+          // Reset form fields
+          this.addItemForm.reset({
+            productId: '',  // Reset to an empty string if productId is a string
+            quantity: 0
+          });
+        } else {
+          console.error('Product not found');
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching product:', error);
+      }
+    });
+  }
+
+  // addItem(): void {
+  //   const formValue = this.addItemForm.value;
+  //   const productId = formValue.productId;
+  //   const quantity = formValue.quantity;
+
+  //   if (productId && quantity > 0) {
+  //     this.productService.getProductById(productId).subscribe({
+  //       next: (product) => {
+  //         if (product) {
+  //           const pricePerUnit = product.costPerItem || 0;
+  //           const totalUnits = quantity || 0;
+  //           const totalCost = pricePerUnit * totalUnits;
+
+  //           const newItem: OrderItem = {
+  //             productId: product.productId,
+  //             productTitle: product.productTitle,
+  //             pricePerUnit: pricePerUnit,
+  //             totalUnits: totalUnits,
+  //             totalCost: totalCost
+  //           };
+
+  //           this.dataSource.data = [...this.dataSource.data, newItem];
+  //           this.calculateTotalAmount();
+
+  //           // Reset form fields
+  //           this.addItemForm.reset({
+  //             productId: null,
+  //             quantity: 0
+  //           });
+  //         } else {
+  //           console.error('Product not found');
+  //         }
+  //       },
+  //       error: (error) => {
+  //         console.error('Error fetching product:', error);
+  //       }
+  //     });
+  //   } else {
+  //     console.error('Invalid product or quantity');
+  //   }
+  // }
+
+  
+  // addItem(): void {
+  //   if (this.selectedProduct && this.totalUnits.value > 0) {
+  //     const newOrderItem: OrderItem = {
+  //       productId: this.selectedProduct.productId,
+  //       productTitle: this.selectedProduct.productTitle,
+  //       pricePerUnit: this.selectedProduct.pricePerUnit,
+  //       totalUnits: this.totalUnits.value,
+  //       totalCost: this.selectedProduct.pricePerUnit * this.totalUnits.value
+  //     };
+
+  //     this.dataSource.data = [...this.dataSource.data, newOrderItem];
+  //     this.quantity.setValue(0);
+  //     this.selectedProduct = null;
+  //   }
+  // }
+
+  removeItem(item: OrderItem): void {
+    this.dataSource.data = this.dataSource.data.filter(i => i !== item);
+    this.calculateTotalAmount();
+  }
+
+  private calculateTotalAmount(): void {
+    this.totalAmount = this.dataSource.data.reduce((acc, item) => acc + item.totalCost, 0);
+    console.log('Current dataSource data:', this.dataSource.data);
+    console.log('Total Amount:', this.totalAmount);
+  }
+
+ 
+
+  downloadPDF(): void {
+    const content = document.querySelector('.order-item-details-card') as HTMLElement | null;
+  
+    if (content) {
+      const pdfDoc = new jsPDF();
+      
+      html2canvas(content).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdfWidth = pdfDoc.internal.pageSize.getWidth();
+        const pdfHeight = canvas.height * pdfWidth / canvas.width;
+  
+        pdfDoc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdfDoc.save('order-details.pdf');
+      }).catch(error => {
+        console.error('Error generating PDF:', error);
+      });
+    } else {
+      console.error('Content element not found');
+    }
+  }
+
+
+
+  saveSellDetails(): void {
+    const orderDetails = {
+      orderId: this.orderId,
+      items: this.dataSource.data,
+      totalAmount: this.totalAmount
+    };
+  
+    console.log('Saving Order Details:', orderDetails);
+  
+    this.userService.saveOrderDetails(orderDetails).subscribe({
+      next: (response) => {
+        console.log('Order details saved:', response);
+      },
+      error: (error) => {
+        console.error('Error saving order details:', error);
+      }
+    });
+  }
+  
+ 
+
+  
+}
+
+Once click addItem didnot store data and calculateTotalAmount
+New Item: 
+{productId: undefined, productTitle: undefined, pricePerUnit: 0, totalUnits: 0, totalCost: 0}
+pricePerUnit
+: 
+0
+productId
+: 
+undefined
+productTitle
+: 
+undefined
+totalCost
+: 
+0
+totalUnits
+: 
+0
+How will reslove
+
+
+
+
+1. item-cart.component.html
+
+<mat-card appearance="outlined" class="card1">
+  <mat-card-content>
+    <form #itemForm="ngForm" (ngSubmit)="addItem(itemForm)">
+      <mat-form-field appearance="fill">
+        <mat-label>Product</mat-label>
+        <mat-select [(ngModel)]="selectedProduct" name="product" required>
+          <mat-option *ngFor="let product of productList" [value]="product">
+            {{ product.productTitle }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Quantity</mat-label>
+        <input matInput type="number" [(ngModel)]="quantity" name="quantity" required>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">Add Item</button>
+    </form>
+
+    <mat-table [dataSource]="cartItems" class="mat-elevation-z8">
+      <ng-container matColumnDef="productId">
+        <th mat-header-cell *matHeaderCellDef> Product Id </th>
+        <td mat-cell *matCellDef="let row"> {{ row.productId }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="productTitle">
+        <th mat-header-cell *matHeaderCellDef> Product Title </th>
+        <td mat-cell *matCellDef="let row"> {{ row.productTitle }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="costPerItem">
+        <th mat-header-cell *matHeaderCellDef> Cost Per Item </th>
+        <td mat-cell *matCellDef="let row"> {{ row.costPerItem }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalUnits">
+        <th mat-header-cell *matHeaderCellDef> Total Units </th>
+        <td mat-cell *matCellDef="let row"> {{ row.totalUnits }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalCost">
+        <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+        <td mat-cell *matCellDef="let row"> {{ row.totalCost }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </mat-table>
+  </mat-card-content>
+</mat-card>
+
+2.ts:
+import { Component, OnInit } from '@angular/core';
+import { Product } from '../model/product';
+import { ProductService } from '../product.service';
+
+@Component({
+  selector: 'app-item-cart',
+  templateUrl: './item-cart.component.html',
+  styleUrls: ['./item-cart.component.css']
+})
+export class ItemCartComponent implements OnInit {
+  productList: Product[] = [];
+  selectedProduct!: Product;
+  quantity: number = 0;
+  cartItems: any[] = [];
+  displayedColumns = ['productId', 'productTitle', 'costPerItem', 'totalUnits', 'totalCost'];
+
+  constructor(private productService: ProductService) {}
+
+  ngOnInit() {
+    this.getAllProducts();
+  }
+
+  getAllProducts() {
+    this.productService.getProducts().subscribe(products => this.productList = products);
+  }
+
+  addItem(form: any) {
+    if (this.selectedProduct && this.quantity > 0) {
+      const totalCost = this.selectedProduct.costPerItem * this.quantity;
+      this.cartItems.push({
+        ...this.selectedProduct,
+        totalUnits: this.quantity,
+        totalCost: totalCost
+      });
+      form.reset();
+      this.selectedProduct = null!;
+      this.quantity = 0;
+    }
+  }
+}
+3.css
+.card1 {
+  margin: 20px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-table {
+  margin-top: 20px;
+}
+service:
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Product } from './model/product';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProductService {
+  private apiUrl = 'your-api-url/products';
+
+  constructor(private http: HttpClient) {}
+
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl);
+  }
+
+  // Other service methods...
+}
+routing:
+
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { ProductreportComponent } from './productreport/productreport.component';
+import { ItemCartComponent } from './item-cart/item-cart.component';
+
+const routes: Routes = [
+  { path: 'product-report', component: ProductreportComponent },
+  { path: 'item-cart', component: ItemCartComponent },
+  { path: '', redirectTo: '/product-report', pathMatch: 'full' }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+once click addIteam button .after display below calculted  total amount details display want need logic angular html,ts service
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export class ItemCartComponent implements OnInit {
+  productList: Product[] = [];
+  selectedProduct: Product | null = null; // Initialize to null
+  quantity: number = 0;
+  cartItems: any[] = [];
+  displayedColumns = ['productId', 'productTitle', 'costPerItem', 'totalUnits', 'totalCost', 'actions'];
+
+  constructor(private productService: ProductService) {}
+
+  ngOnInit() {
+    this.getAllProducts();
+  }
+
+  getAllProducts() {
+    this.productService.getProducts().subscribe(products => this.productList = products);
+  }
+
+  addItem(form: any) {
+    if (this.selectedProduct && this.quantity > 0) {
+      const totalCost = this.selectedProduct.costPerItem * this.quantity;
+      
+      // Check if product is already in cart
+      const existingItem = this.cartItems.find(item => item.productId === this.selectedProduct.productId);
+      if (existingItem) {
+        // Update existing item
+        existingItem.totalUnits += this.quantity;
+        existingItem.totalCost = existingItem.totalUnits * existingItem.costPerItem;
+      } else {
+        // Add new item
+        this.cartItems.push({
+          ...this.selectedProduct,
+          totalUnits: this.quantity,
+          totalCost: totalCost
+        });
+      }
+
+      // Reset form
+      form.reset();
+      this.selectedProduct = null; // Reset selected product
+      this.quantity = 0;
+    } else {
+      console.log("Please select a product and enter a quantity.");
+    }
+  }
+
+  removeItem(item: any) {
+    const index = this.cartItems.indexOf(item);
+    if (index > -1) {
+      this.cartItems.splice(index, 1);
+    }
+  }
+
+  getTotalAmount(): number {
+    return this.cartItems.reduce((acc, item) => acc + item.totalCost, 0);
+  }
+}
+
+
+import { Component, OnInit } from '@angular/core';
+import { Product } from '../model/product';
+import { ProductService } from '../product.service';
+
+@Component({
+  selector: 'app-item-cart',
+  templateUrl: './item-cart.component.html',
+  styleUrls: ['./item-cart.component.css']
+})
+export class ItemCartComponent implements OnInit {
+  productList: Product[] = [];
+  selectedProduct: Product | null = null;
+  quantity: number = 0;
+  cartItems: any[] = [];
+  displayedColumns = ['productId', 'productTitle', 'costPerItem', 'totalUnits', 'totalCost'];
+
+  constructor(private productService: ProductService) {}
+
+  ngOnInit() {
+    this.getAllProducts();
+  }
+
+  getAllProducts() {
+    this.productService.getProducts().subscribe(products => this.productList = products);
+  }
+
+  addItem(form: any) {
+    if (this.selectedProduct && this.quantity > 0) {
+      const totalCost = this.selectedProduct.costPerItem * this.quantity;
+      const existingItem = this.cartItems.find(item => item.productId === this.selectedProduct.productId);
+
+      if (existingItem) {
+        existingItem.totalUnits += this.quantity;
+        existingItem.totalCost = existingItem.totalUnits * existingItem.costPerItem;
+      } else {
+        this.cartItems.push({
+          ...this.selectedProduct,
+          totalUnits: this.quantity,
+          totalCost: totalCost
+        });
+      }
+
+      form.reset();
+      this.selectedProduct = null;
+      this.quantity = 0;
+    } else {
+      console.log("Please select a product and enter a quantity.");
+    }
+  }
+
+  getTotalAmount(): number {
+    // Ensure cartItems is not null and calculate total amount
+    return this.cartItems.reduce((acc, item) => acc + (item.totalCost || 0), 0);
+  }
+}
+
+
+
+Product API:
+
+1.http://localhost:8080/api/product/prdocutdetails
+
+
+
+
+ table :Product {
+    "productId" : "1",
+    "productTitle": "SunfeastBiscut",
+    "productCode": "MS23",
+    "totalStock": 100,
+    "costPerItem": 10,
+    "expiryDate": "2024-09-14T18:30:00.000Z",
+    "manufactureDate": "2024-09-27T18:30:00.000Z",
+    "description": ", a small quick bread usually made from flour, salt, and butter or vegetable shortening, with baking powder as a leavening agent.",
+    "categoryid": "1",  // Replace with actual ID from get selectproducttype
+    "companyid": "1"  // Replace with actual ID from get companyName
+  }
+
+
+
+ table: "addcategory": [
+    {
+      "id": "1d50",
+      "categoryid": "1",
+      "categoryName": "Biscuts",
+      "description": "Biscuts Category"
+    }]
+	
+ table: "addcompany": [
+    {
+      "id": "606e",
+      "companyId": "1",
+      "companyName": "Parie",
+      "companyDescripation": "Parie Company"
+    }
+  ], How will mapping database want Spring Entity,service,controller,repository
+ table : "product": [
+    {
+      "id": "7e2c",
+      "productId": "1",
+      "productTitle": "SunfeastBiscut",
+      "productCode": "MS23",
+      "totalStock": 100,
+      "costPerItem": 10,
+      "expiryDate": "2024-09-14T18:30:00.000Z",
+      "manufactureDate": "2024-09-27T18:30:00.000Z",
+      "description": ", a small quick bread usually made from flour, salt, and butter or vegetable shortening, with baking powder as a leavening agent.",
+      "categoryid": "1",Id using get selectproducttype
+      "companyId": "1" ,Id using get companyName
+    }
+	
+	
+
+
+1. table: "addcategory": [
+    {
+      "id": "1d50",
+      "categoryid": "1",
+      "categoryName": "Biscuts",
+      "description": "Biscuts Category"
+    }]
+	
+2.table: "addcompany": [
+    {
+      "id": "606e",
+      "companyId": "1",
+      "companyName": "Parie",
+      "companyDescripation": "Parie Company"
+    }
+
+
+3."product": 
+    {
+      "productTitle": "SunfeastBiscut",
+      "productCode": "MS23",
+      "totalStock": 100,
+      "costPerItem": 10,
+      "expiryDate": "2024-09-14T18:30:00.000Z",
+      "manufactureDate": "2024-09-27T18:30:00.000Z",
+      "description": ", a small quick bread usually made from flour, salt, and butter or vegetable shortening, with baking powder as a leavening agent.",
+      "selectproducttypeId": "1",Id using get selectproducttype
+      "companyid": "1" ,Id using get companyName 
+    }
+
+like this want need How will mapping database want Spring Entity,service,controller,repository
+
+
+INSERT INTO product (product_code, product_name, total_stock, categoryid, companyid, cost_per_item, expiry_date, manufacture_date, description)  
+VALUES ('P001', 'Smartphone', 100, 1, 1, 299.99, '2025-12-31', '2023-09-15', 'Latest model smartphone');  like this want need How will mapping database want Spring Entity,service,controller,repository
+
+
+
+html:
+<form [formGroup]="productForm">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>ADD Product Details</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field appearance="fill">
+        <mat-label>Product ID</mat-label>
+        <input matInput formControlName="productId" placeholder="Product ID">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Select Product Category</mat-label>
+        <mat-select formControlName="productCategory">
+          <mat-option *ngFor="let category of miniList" [value]="category.selectproducttypeId">
+            {{ category.selectproducttype }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Product Title</mat-label>
+        <input matInput formControlName="productTitle" placeholder="Product Title">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Select Company</mat-label>
+        <mat-select formControlName="company">
+          <mat-option *ngFor="let company of companyList" [value]="company.companyId">
+            {{ company.companyName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Product Code</mat-label>
+        <input matInput formControlName="productCode" placeholder="Product Code">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Total Stock</mat-label>
+        <input matInput type="number" formControlName="totalStock" placeholder="Total Stock">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Cost Per Item</mat-label>
+        <input matInput type="number" formControlName="costPerItem" placeholder="Cost Per Item">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Expiry Date</mat-label>
+        <input matInput [matDatepicker]="expiryPicker" formControlName="expiryDate" placeholder="Expiry Date">
+        <mat-datepicker-toggle matSuffix [for]="expiryPicker"></mat-datepicker-toggle>
+        <mat-datepicker #expiryPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Manufacture Date</mat-label>
+        <input matInput [matDatepicker]="manufacturePicker" formControlName="manufactureDate" placeholder="Manufacture Date">
+        <mat-datepicker-toggle matSuffix [for]="manufacturePicker"></mat-datepicker-toggle>
+        <mat-datepicker #manufacturePicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" placeholder="Description"></textarea>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="onSubmit()">SUBMIT</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
+ts:
+{
+ selectedProductCategory!: number;  // Selected product ID
+
+  selectedProductCompany!: number;
+
+ productForm!: FormGroup;
+ companyList : AddCompany[]=[];
+ 
+  miniList : Addcategory[]=[];
+
+  constructor(private fb: FormBuilder, private productService: ProductService,private customerservice: UserService) { }
+
+  ngOnInit(): void {
+    this.initializeForm();
+    this.loadCategories();
+    this.loadCompanies();
+  }
+
+  initializeForm(): void {
+    this.productForm = this.fb.group({
+      productId: ['', Validators.required],
+      productTitle: ['', Validators.required],
+      productCode: ['', Validators.required],
+      totalStock: [0, [Validators.required, Validators.min(0)]],
+      costPerItem: [0, [Validators.required, Validators.min(0)]],
+      expiryDate: [null, Validators.required],
+      manufactureDate: [null, Validators.required],
+      description: [''],
+      productCategory: [''],  // Use this for product type
+      company: ['']
+    });
+  }
+
+  loadCategories(): void {
+    // Load categories from a service
+    this.customerservice.getAll().subscribe(data => this.miniList = data);
+  }
+
+  loadCompanies(): void {
+    // Load companies from a service
+    this.customerservice.getAllcompany().subscribe(data => this.companyList = data);
+  }
+
+  onSubmit(): void {
+    if (this.productForm.valid) {
+      this.productService.addProduct(this.productForm.value).subscribe(response => {
+        console.log('Product added:', response);
+        // Handle success, e.g., reset form or show a notification
+      }, error => {
+        console.error('Error adding product:', error);
+        // Handle error
+      });
+    }
+  }
+}
+service:
+
+
+1.Product Service:
+ 
+ addProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>(this.apiUrl, product);
+  }
+  
+2.Category Sevice :
+ getCategories(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/categories`);
+  }
+  
+3.Company Service:
+  getCompanies(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/companies`);
+  }
+ above angular html have.like this want Spring boot Entity and Repository and Controller ,Service
+ 
+ 
+ 
+ Product Controller :
+ 
+ 
+ 
+ package com.example.demo.controller;
+
+import com.example.demo.entity.Product;
+import com.example.demo.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/products")
+public class ProductController {
+
+    @Autowired
+    private ProductService productService;
+
+    @GetMapping
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Product> getProductById(@PathVariable String id) {
+        return productService.getProductById(id);
+    }
+
+    @PostMapping
+    public Product createProduct(@RequestBody Product product) {
+        return productService.saveProduct(product);
+    }
+
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable String id, @RequestBody Product product) {
+        product.setProductId(id);
+        return productService.saveProduct(product);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable String id) {
+        productService.deleteProduct(id);
+    }
+}
+
+
+Product Service:
+
+package com.example.demo.service;
+
+import com.example.demo.entity.Product;
+import com.example.demo.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class ProductService {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
+    public Optional<Product> getProductById(String id) {
+        return productRepository.findById(id);
+    }
+
+    public Product saveProduct(Product product) {
+        return productRepository.save(product);
+    }
+
+    public void deleteProduct(String id) {
+        productRepository.deleteById(id);
+    }
+}
+
+
+
+
+package com.example.demo.controller;
+
+import com.example.demo.entity.Product;
+import com.example.demo.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/products")
+public class ProductController {
+
+    @Autowired
+    private ProductService productService;
+
+    @GetMapping
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Product> getProductById(@PathVariable String id) {
+        return productService.getProductById(id);
+    }
+
+    @PostMapping
+    public Product createProduct(@RequestBody Product product) {
+        return productService.saveProduct(product);
+    }
+
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable String id, @RequestBody Product product) {
+        product.setProductId(id);
+        return productService.saveProduct(product);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable String id) {
+        productService.deleteProduct(id);
+    }
+}
+
+
+
+package com.example.demo.entity;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "product")
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long productId;
+
+    private String productCode;
+    private String productName;
+    private int totalStock;
+    
+    @ManyToOne
+    @JoinColumn(name = "categoryid")
+    private Category category;
+    
+    @ManyToOne
+    @JoinColumn(name = "companyid")
+    private Company company;
+    
+    private double costPerItem;
+    private LocalDate expiryDate;
+    private LocalDate manufactureDate;
+    private String description;
+
+    // Getters and Setters
+}
+
+
+package com.example.demo.entity;
+
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+@Table(name = "category")
+public class Category {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long categoryId;
+
+    private String selectproducttype;
+    private String description;
+
+    @OneToMany(mappedBy = "category")
+    private Set<Product> products;
+
+    // Getters and Setters
+}
+
+
+package com.example.demo.entity;
+
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+@Table(name = "company")
+public class Company {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long companyId;
+
+    private String companyName;
+	
+    private String description;
+
+    @OneToMany(mappedBy = "company")
+    private Set<Product> products;
+
+    // Getters and Setters
+}
+
+
+DTO:
+
+package com.example.demo.dto;
+
+import java.time.LocalDate;
+
+public class ProductRequest {
+
+    private Long productId;
+    private String productCode;
+    private String productName;
+    private int totalStock;
+    private CategoryRequest category;
+    private CompanyRequest company;
+    private double costPerItem;
+    private LocalDate expiryDate;
+    private LocalDate manufactureDate;
+    private String description;
+
+    // Getters and Setters
+}
+
+
+package com.example.demo.dto;
+
+public class CategoryRequest {
+
+    private Long categoryId;
+    private String selectproducttype;
+    private String description;
+
+    // Getters and Setters
+}
+
+
+
+package com.example.demo.dto;
+
+public class CompanyRequest {
+
+    private Long companyId;
+    private String companyName;
+    private String description;
+
+    // Getters and Setters
+}
+
+
+
+
+
+
+package com.example.demo.service;
+
+import com.example.demo.dto.ProductRequest;
+import com.example.demo.entity.Category;
+import com.example.demo.entity.Company;
+import com.example.demo.entity.Product;
+import com.example.demo.repository.CategoryRepository;
+import com.example.demo.repository.CompanyRepository;
+import com.example.demo.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ProductService {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    public Product addProduct(ProductRequest productRequest) {
+        Product product = new Product();
+        product.setProductCode(productRequest.getProductCode());
+        product.setProductName(productRequest.getProductName());
+        product.setTotalStock(productRequest.getTotalStock());
+        product.setCostPerItem(productRequest.getCostPerItem());
+        product.setExpiryDate(productRequest.getExpiryDate());
+        product.setManufactureDate(productRequest.getManufactureDate());
+        product.setDescription(productRequest.getDescription());
+
+        // Set Category
+        Category category = categoryRepository.findById(productRequest.getCategory().getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+        product.setCategory(category);
+
+        // Set Company
+        Company company = companyRepository.findById(productRequest.getCompany().getCompanyId())
+                .orElseThrow(() -> new RuntimeException("Company not found"));
+        product.setCompany(company);
+
+        return productRepository.save(product);
+    }
+}
+
+
+
+package com.example.demo.service;
+
+import com.example.demo.dto.ProductRequest;
+import com.example.demo.entity.Category;
+import com.example.demo.entity.Company;
+import com.example.demo.entity.Product;
+import com.example.demo.repository.CategoryRepository;
+import com.example.demo.repository.CompanyRepository;
+import com.example.demo.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ProductService {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    public Product addProduct(ProductRequest productRequest) {
+        Product product = new Product();
+        product.setProductCode(productRequest.getProductCode());
+        product.setProductName(productRequest.getProductName());
+        product.setTotalStock(productRequest.getTotalStock());
+        product.setCostPerItem(productRequest.getCostPerItem());
+        product.setExpiryDate(productRequest.getExpiryDate());
+        product.setManufactureDate(productRequest.getManufactureDate());
+        product.setDescription(productRequest.getDescription());
+
+        // Set Category
+        Category category = categoryRepository.findById(productRequest.getCategory().getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+        product.setCategory(category);
+
+        // Set Company
+        Company company = companyRepository.findById(productRequest.getCompany().getCompanyId())
+                .orElseThrow(() -> new RuntimeException("Company not found"));
+        product.setCompany(company);
+
+        return productRepository.save(product);
+    }
+}
+
+
+
+package com.example.demo.controller;
+
+import com.example.demo.dto.ProductRequest;
+import com.example.demo.entity.Product;
+import com.example.demo.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/products")
+public class ProductController {
+
+    @Autowired
+    private ProductService productService;
+
+    @PostMapping
+    public ResponseEntity<Product> addProduct(@RequestBody ProductRequest productRequest) {
+        Product product = productService.addProduct(productRequest);
+        return new ResponseEntity<>(product, HttpStatus.CREATED);
+    }
+}
+
+
+
+
+
+
+package com.departmentalstore.store.service;
+
+import com.departmentalstore.store.dto.ProductDTO;
+import com.departmentalstore.store.entity.Category;
+import com.departmentalstore.store.entity.Company;
+import com.departmentalstore.store.entity.Product;
+import com.departmentalstore.store.repository.CategoryRepository;
+import com.departmentalstore.store.repository.CompanyRepository;
+import com.departmentalstore.store.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ProductService {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    public Product saveProduct(ProductDTO productDTO) {
+        if (productDTO == null) {
+            throw new IllegalArgumentException("ProductDTO cannot be null");
+        }
+
+        Product product = new Product();
+        product.setProductCode(productDTO.getProductCode());
+        product.setProductName(productDTO.getProductName());
+        product.setTotalStock(productDTO.getTotalStock());
+        product.setCostPerItem(productDTO.getCostPerItem());
+        product.setExpiryDate(productDTO.getExpiryDate());
+        product.setManufactureDate(productDTO.getManufactureDate());
+        product.setDescription(productDTO.getDescription());
+
+        // Check for null category
+        if (productDTO.getCategory() == null) {
+            throw new IllegalArgumentException("Category cannot be null");
+        }
+        
+        // Set Category
+        Category category = categoryRepository.findById(productDTO.getCategory().getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+        product.setCategory(category);
+
+        // Check for null company
+        if (productDTO.getCompany() == null) {
+            throw new IllegalArgumentException("Company cannot be null");
+        }
+        
+        // Set Company
+        Company company = companyRepository.findById(productDTO.getCompany().getCompanyId())
+                .orElseThrow(() -> new RuntimeException("Company not found"));
+        product.setCompany(company);
+
+        return productRepository.save(product);
+    }
+}
+
+
+
+
+Angular :
+
+
+html:
+
+
+  <form [formGroup]="addForm">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>ADD Customer</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+       
+       
+  
+        <mat-form-field appearance="fill">
+          <mat-label>Customer ID</mat-label>
+          <input matInput formControlName="orderId" placeholder="Order Id">
+        </mat-form-field>
+        &nbsp;
+      
+  
+        <mat-form-field appearance="fill">
+          <mat-label>Customer Name</mat-label>
+          <input matInput formControlName="customerName" placeholder="Customer Name">
+        </mat-form-field>
+        &nbsp;
+        <mat-form-field appearance="fill">
+          <mat-label>Customer Number</mat-label>
+          <input matInput type="number" formControlName="customernumber" placeholder="Customer Number">
+        </mat-form-field>
+
+        &nbsp;
+        <mat-form-field appearance="fill">
+          <mat-label>Current Date</mat-label>
+          <input matInput [matDatepicker]="manufacturePicker" formControlName="orderDate" placeholder="orderDate">
+          <mat-datepicker-toggle matSuffix [for]="manufacturePicker"></mat-datepicker-toggle>
+          <mat-datepicker #manufacturePicker></mat-datepicker>
+        </mat-form-field>
+
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="onSubmit()">SUBMIT</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+ts:
+import { Component, ViewChild } from '@angular/core';
+import { UserService } from '../user.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { OrderService } from '../order.service';
+import { Router } from '@angular/router';
+import { Order } from '../model/order';
+
+@Component({
+  selector: 'app-customer',
+  templateUrl: './customer.component.html',
+  styleUrl: './customer.component.css'
+})
+export class CustomerComponent {
+
+  addForm!: FormGroup;
+
+  order!:any;
+  
+  constructor(private fb: FormBuilder, private orderService: OrderService, private router: Router) { }
+
+  ngOnInit(): void {
+    this.addForm = this.fb.group({
+      orderId: [''],
+      customerName: [''],
+      customernumber: [''],
+      orderDate: [''],
+
+      
+    });
+  }
+  
+  onSubmit(): void {
+    if (this.addForm.valid) {
+      const order: Omit<Order, 'id'> = this.addForm.value;
+      this.orderService.createCustomer(order).subscribe(
+        response => {
+          // Navigate to the customer details view with the newly created customer ID
+          this.router.navigate(['/userdetails', response.id]);
+        },
+        error => {
+          console.error('Error creating customer:', error);
+        }
+      );
+    }
+  }
+
+}
+service:
+
+Post : http://localhost:8080/CustomerOrder/add
+
+
+{
+"customerName":"Muthuraj",
+"customerMobile":9878967895,
+"date":"2024-09-16"
+}
+
+
+
+
+1.clothing 
+2.cosmetics 
+3.furniture
+4.gardening 
+5.hardware 
+6.home 
+7.appliances 
+8.houseware 
+9.paint 
+10.sporting 
+11.goods 
+12.toiletries 
+13.toys.
+
+
+
+Product Entity:
+package com.departmentalstore.store.bean;
+
+import java.sql.Date;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+
+
+
+@Entity
+@Table(name = "Product")
+public class Product{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long productid;
+
+    @Column(name = "productCode", nullable = false)
+    private String productCode;
+
+    @Column(name = "productName", nullable = false)
+    private String productName;
+
+    @Column(name = "totalStock", nullable = false)
+    private Long totalStock;
+
+    @ManyToOne
+    @JoinColumn(name = "categoryid")
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "companyid")
+    private Company company;
+
+    @Column(name = "costPerItem", nullable = false)
+    private Double costPerItem;
+
+    @Column(name = "expiryDate", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date expiryDate;
+
+    @Column(name = "manufactureDate", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date manufactureDate;
+
+    @Column(name = "description", nullable = false)
+    private String description;
+    
+    
+    
+ 
+	public Long getProductid() {
+		return productid;
+	}
+
+	public void setProductid(Long productid) {
+		this.productid = productid;
+	}
+
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public Long getTotalStock() {
+		return totalStock;
+	}
+
+	public void setTotalStock(Long totalStock) {
+		this.totalStock = totalStock;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	public Double getCostPerItem() {
+		return costPerItem;
+	}
+
+	public void setCostPerItem(Double costPerItem) {
+		this.costPerItem = costPerItem;
+	}
+
+	public Date getExpiryDate() {
+		return expiryDate;
+	}
+
+	public void setExpiryDate(Date expiryDate) {
+		this.expiryDate = expiryDate;
+	}
+
+	public Date getManufactureDate() {
+		return manufactureDate;
+	}
+
+	public void setManufactureDate(Date manufactureDate) {
+		this.manufactureDate = manufactureDate;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	
+}
+Categort Entity:
+package com.departmentalstore.store.bean;
+
+
+import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table; 
+
+  
+
+@Entity
+@Table(name = "Category")
+public class Category {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long categoryid;
+
+    @Column(name = "selectproducttype", nullable = false)
+    private String selectproducttype;
+
+    @Column(name = "description", nullable = false)
+    private String description;
+    
+    
+    
+//    @OneToMany(mappedBy = "category")
+//    private List<Product> products;
+
+    
+	public Long getCategoryid() {
+		return categoryid;
+	}
+
+	public void setCategoryid(Long categoryid) {
+		this.categoryid = categoryid;
+	}
+
+	public String getSelectproducttype() {
+		return selectproducttype;
+	}
+
+	public void setSelectproducttype(String selectproducttype) {
+		this.selectproducttype = selectproducttype;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	
+
+  }
+Company Entiry:
+package com.departmentalstore.store.bean;
+
+
+
+
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+
+@Entity
+@Table(name = "Company")
+public class Company {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long companyid;
+
+    @Column(name = "companyname", nullable = false)
+    private String companyname;
+
+    @Column(name = "description", nullable = false)
+    private String description;
+    
+//    @OneToMany(mappedBy = "company")
+//    private List<Product> products;
+
+	public Long getCompanyid() {
+		return companyid;
+	}
+
+	public String getCompanyname() {
+		return companyname;
+	}
+
+	public void setCompanyname(String companyname) {
+		this.companyname = companyname;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setCompanyid(Long companyid) {
+		this.companyid = companyid;
+	}
+
+
+	
+
+
+   
+}
+
+Service:
+Product:
+package com.departmentalstore.store.service;
+
+import java.util.List;
+
+
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.departmentalstore.store.bean.Category;
+import com.departmentalstore.store.bean.Company;
+import com.departmentalstore.store.bean.Product;
+import com.departmentalstore.store.dto.ProductDTO;
+import com.departmentalstore.store.repository.CategoryRepository;
+import com.departmentalstore.store.repository.CompanyRepository;
+import com.departmentalstore.store.repository.ProductRepository;
+
+@Service
+public class ProductService {
+	
+	@Autowired  
+	private ProductRepository ProductRepository;
+	
+    @Autowired
+    private CategoryRepository CategoryRepository;
+    
+    @Autowired
+	private CompanyRepository Companyrepository;
+  
+      public Product saveProduct(ProductDTO productDTO) {
+        // Fetch the category and company entities based on IDs
+        Category category = categoryRepository.findById(productDTO.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+        
+        Company company = companyRepository.findById(productDTO.getCompanyId())
+                .orElseThrow(() -> new RuntimeException("Company not found"));
+        
+        Product product = new Product();
+        product.setProductCode(productDTO.getProductCode());
+        product.setProductName(productDTO.getProductName());
+        product.setTotalStock(productDTO.getTotalStock());
+        product.setCostPerItem(productDTO.getCostPerItem());
+        product.setExpiryDate(Date.valueOf(productDTO.getExpiryDate()));
+        product.setManufactureDate(Date.valueOf(productDTO.getManufactureDate()));
+        product.setDescription(productDTO.getDescription());
+        product.setCategory(category);
+        product.setCompany(company);
+
+        return productRepository.save(product);
+    }
+	
+	 
+	public List<Product> getAllProducts() {
+        return ProductRepository.findAll();
+    }
+
+    public Optional<Product> getProductById(Long productid) {
+        return ProductRepository.findById(productid);
+    }
+
+    public Product saveProduct(Product product) {
+        return ProductRepository.save(product);
+    }
+
+    public void deleteProduct(Long productid) {
+    	ProductRepository.deleteById(productid);
+    }
+    
+    
+    
+    
+
+}
+
+
+
+
+above springboot have some logic .Angular material logic html,ts,service .Insert page fields at that time Only companyname dropdown and companytable get companyid,Only selectproducttype dropdown and categories get categoryid,lI want need angular material html,ts,
+
+09:57:47	INSERT INTO product (product_code, product_name, total_stock, categoryid, companyid, cost_per_item, expiry_date, manufacture_date, description)   VALUES ('P001', 'Smartphone', 100, 2, 1, 299.99, '2025-12-31', '2023-09-15', 'Latest model smartphone')	Error Code: 1452. Cannot add or update a child row: a foreign key constraint fails (`departmentstoredemo`.`product`, CONSTRAINT `FK4ort9abhumpx4t2mlngljr1vi` FOREIGN KEY (`categoryid`) REFERENCES `category` (`categoryid`))	0.016 sec
+
+
+
+@Service
+public class ProductService {
+
+    @Autowired  
+    private ProductRepository productRepository;
+    
+    @Autowired
+    private CategoryRepository categoryRepository;
+    
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    // Updated saveProduct method to accept ProductDTO instead of creating a new Product
+    public Product saveProduct(ProductDTO productDTO) {
+        Product product = new Product();
+        product.setProductCode(productDTO.getProductCode());
+        product.setProductName(productDTO.getProductName());
+        product.setTotalStock(productDTO.getTotalStock());
+        product.setCostPerItem(productDTO.getCostPerItem());
+        product.setExpiryDate(Date.valueOf(productDTO.getExpiryDate()));
+        product.setManufactureDate(Date.valueOf(productDTO.getManufactureDate()));
+        product.setDescription(productDTO.getDescription());
+		product.setCategoryid(productDTO.getaData());
+
+        // Set Category
+        if (productDTO.getCategoryId() != null) {
+            Category category = categoryRepository.findById(productDTO.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+            product.setCategory(category);
+        } else {
+            throw new IllegalArgumentException("Category ID cannot be null");
+        }
+
+        // Set Company
+        if (productDTO.getCompanyId() != null) {
+            Company company = companyRepository.findById(productDTO.getCompanyId())
+                .orElseThrow(() -> new RuntimeException("Company not found"));
+            product.setCompany(company);
+        } else {
+            throw new IllegalArgumentException("Company ID cannot be null");
+        }
+
+        return productRepository.save(product);
+    }
+}
+
+
+
+
+@Service
+public class ProductService {
+
+    @Autowired  
+    private ProductRepository productRepository;
+    
+    @Autowired
+    private CategoryRepository categoryRepository;
+    
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    public Product saveProduct(ProductDTO productDTO) {
+        // Fetch the category and company entities based on IDs
+        Category category = categoryRepository.findById(productDTO.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+        
+        Company company = companyRepository.findById(productDTO.getCompanyId())
+                .orElseThrow(() -> new RuntimeException("Company not found"));
+        
+        Product product = new Product();
+        product.setProductCode(productDTO.getProductCode());
+        product.setProductName(productDTO.getProductName());
+        product.setTotalStock(productDTO.getTotalStock());
+        product.setCostPerItem(productDTO.getCostPerItem());
+        product.setExpiryDate(Date.valueOf(productDTO.getExpiryDate()));
+        product.setManufactureDate(Date.valueOf(productDTO.getManufactureDate()));
+        product.setDescription(productDTO.getDescription());
+        product.setCategory(category);
+        product.setCompany(company);
+
+        return productRepository.save(product);
+    }
+}
+
+
+
+HTML:
+
+<div class="container">
+  <mat-card class="customer-card" *ngIf="!loading && order">
+    <mat-card-header>
+      <mat-card-title>Customer and Order Details</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="order-details">
+        <div class="order-detail">
+          <label for="orderid">Order ID:</label>
+          {{ order.orderid }}
+        </div>
+        <div class="order-detail">
+          <label for="date">Order Date:</label>
+          {{ order.date ? (order.date | date:'shortDate') : 'Date not available' }}
+        </div>
+      </div>
+      <div class="order-details">
+        <div class="order-detail">
+          <label for="customerName">Customer Name:</label>
+          {{ order.customerName }}
+        </div>
+        <div class="order-detail">
+          <label for="customerMobile">Customer Mobile:</label>
+          {{ order.customerMobile }}
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  
+  <div *ngIf="loading" class="loading-spinner">
+    <mat-spinner></mat-spinner>
+    Loading...
+  </div>
+  
+
+   <mat-card class="add-items-card">
+    <mat-card-header>
+      <mat-card-title>Add Items into Cart</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form #itemForm="ngForm" (ngSubmit)="addItem(itemForm)">
+        <mat-form-field appearance="fill">
+          <mat-label>Product</mat-label>
+          <mat-select [(ngModel)]="selectedProduct" name="product" required>
+            <mat-option *ngFor="let product of productList" [value]="product">
+              {{ product.productName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill">
+          <mat-label>Quantity</mat-label>
+          <input matInput type="number" [(ngModel)]="quantity" name="quantity" required>
+        </mat-form-field>
+  
+        <button mat-raised-button color="primary" type="submit">Add Item</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+
+  <mat-card class="order-item-details-card">
+    <mat-card-header>
+      <mat-card-title>Order Item Details</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-table [dataSource]="cartItems" class="mat-elevation-z8">
+        <ng-container matColumnDef="productid">
+          <th mat-header-cell *matHeaderCellDef> Product Id </th>
+          <td mat-cell *matCellDef="let row"> {{ row.productid }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="productName">
+          <th mat-header-cell *matHeaderCellDef> Product Title </th>
+          <td mat-cell *matCellDef="let row"> {{ row.productName }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="costPerItem">
+          <th mat-header-cell *matHeaderCellDef> Cost Per Item </th>
+          <td mat-cell *matCellDef="let row"> {{ row.costPerItem }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="totalUnits">
+          <th mat-header-cell *matHeaderCellDef> Total Units </th>
+          <td mat-cell *matCellDef="let row"> {{ row.totalUnits }} </td>
+        </ng-container>
+  
+    
+        <ng-container matColumnDef="totalCost">
+          <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+          <td mat-cell *matCellDef="let row"> {{ row.totalCost | currency:'INR':'symbol' }} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button color="warn" (click)="removeItem(row)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </mat-table>
+      <br>
+      <br>
+      <div>Total Amount: {{ getTotalAmount() | currency:'INR':'symbol' }}</div>
+      <button mat-raised-button color="accent" (click)="downloadPDF()">Download PDF</button>
+    </mat-card-content>
+  </mat-card>
+  </div>
+
+
+ts:
+
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+
+import { ProductService } from '../product.service';
+import { OrderService } from '../order.service';
+import { Product } from '../model/product';
+import { OrderItem } from '../model/orderitem';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { Order } from '../model/order';
+
+@Component({
+  selector: 'app-userdetails',
+  templateUrl: './userdetails.component.html',
+  styleUrls: ['./userdetails.component.css']
+})
+export class UserDetailsComponent implements OnInit {
+  order!:any
+
+
+  // orderId!: number;
+  // orderdetails!: Order;
+  products: Product[] = [];
+  loading: boolean = true;
+  productList: Product[] = [];
+  selectedProduct: Product | null = null;
+  quantity: number = 0;
+  cartItems: any[] = [];
+  displayedColumns = ['productid', 'productName', 'costPerItem', 'totalUnits', 'totalCost','action'];
+  totalUnits: any;
+  
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private userService: OrderService,
+    private productService: ProductService
+  ) {
+  }
+  
+
+  ngOnInit(): void {
+
+  // this.route.paramMap.subscribe(params => {
+  //     const id = +params.get('id')!;
+  //     this.orderId = id;
+  //     this.fetchOrderDetails();
+  //   });
+
+     //   this.route.paramMap.subscribe(params => {
+  //     const id = +params.get('id')!;
+  //     this.orderId = id;
+  //     this.fetchOrderDetails();
+    
+    this.loadProductList();
+    this.getAllProducts();
+    this.fetchOrderDetails();
+  }
+
+  // private fetchOrderDetails(): void {
+  //   const order: string(this.route.snapshot.paramMap.get('id'));
+  //   this.userService.getCustomerById(id).subscribe({
+  //     next: (response) => {
+  //       this.order = response;
+  //       if (this.order && typeof this.order.date === 'string') {
+  //         this.order.date = new Date(this.order.date);
+  //       }
+  //       this.loading = false;
+  //     },
+  //     error: (error) => {
+  //       console.error('Error fetching customer details:', error);
+  //       this.loading = false;
+  //     }
+  //   });
+  // }
+
+
+  private fetchOrderDetails(): void {
+    const id = this.route.snapshot.paramMap.get('id')!;
+    this.userService.getCustomerById(id).subscribe({
+      next: (response) => {
+        this.order = response;
+        if (this.order && typeof this.order.orderDate === 'string') {
+          this.order.orderDate = new Date(this.order.orderDate);
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching customer details:', error);
+        this.loading = false;
+      }
+    });
+  }
+  // ngOnInit(): void {
+  //   this.route.paramMap.subscribe(params => {
+  //     const id = +params.get('id')!;
+  //     this.orderId = id;
+  //     this.fetchOrderDetails();
+  //   });
+  // }
+
+  // fetchOrderDetails(): void {
+  //   this.customerOrderService.getCustomerOrder(this.orderId).subscribe(
+  //     data => {
+  //       this.orderDetails = data;
+  //     },
+  //     error => {
+  //       console.error('Error fetching customer details:', error);
+  //     }
+  //   );
+
+  // fetchOrderDetails(): void {
+  //   this.userService.getCustomerById(this.orderId).subscribe(
+  //     data => {
+  //       this.orderDetails = data;
+  //     },
+  //     error => {
+  //       console.error('Error fetching customer details:', error);
+  //     }
+  //   );
+  // }
+
+  // fetchOrderDetails(): void {
+  //   const orderId = this.orderId; // Ensure this is correctly set
+
+  //   console.log('Fetching order with id:', this.orderId);
+  //   this.userService.getCustomerById(this.orderId).subscribe(
+  //     data => {
+  //       this.orderDetails = data;
+  //       console.log('Order details:', this.orderDetails);
+  //     },
+  //     error => {
+  //       console.error('Error fetching customer details:', error);
+  //     }
+  //   );
+  // }
+
+  // fetchOrderDetails(): void {
+  //   const orderId = this.orderId; // Ensure this is correctly set
+  //   this.userService.getCustomerById(orderId).subscribe(
+  //     data => {
+  //       this.orderdetails = data;
+  //     },
+  //     error => {
+  //       console.error('Error fetching customer details:', error);
+  //     }
+  //   );
+  // }
+  
+
+  private loadProductList(): void {
+    this.productService.getProducts().subscribe({
+      next: (data) => {
+        this.products = data;
+      },
+      error: (error) => {
+        console.error('Error loading products:', error);
+      }
+    });
+  }
+
+
+  getAllProducts() {
+    this.productService.getProducts().subscribe(products => this.productList = products);
+  }
+
+  addItem(form: any) {
+    if (this.selectedProduct && this.quantity > 0) {
+      const totalCost = this.selectedProduct.costPerItem * this.quantity;
+      const existingItem = this.cartItems.find(item => item.productid === this.selectedProduct?.productid);
+
+      if (existingItem) {
+        existingItem.totalUnits += this.quantity;
+        existingItem.totalCost = existingItem.totalUnits * existingItem.costPerItem;
+      } else {
+        this.cartItems.push({
+          ...this.selectedProduct,
+          totalUnits: this.quantity,
+          totalCost: totalCost
+        });
+      }
+
+      
+          // Update the dataSource
+          this.cartItems = [...this.cartItems];
+          // this.calculateTotalAmount();
+
+      form.reset();
+      this.selectedProduct = null;
+      this.quantity = 0;
+    } else {
+      console.log("Please select a product and enter a quantity.");
+    }
+  }
+
+  removeItem(item: OrderItem): void {
+    this.cartItems = this.cartItems.filter(i => i !== item);
+  }
+
+  getTotalAmount(): number {
+    return this.cartItems.reduce((acc, item) => acc + (item.totalCost || 0), 0);
+  }
+
+  downloadPDF(): void {
+    const content = document.querySelector('.order-item-details-card') as HTMLElement | null;
+  
+    if (content) {
+      const pdfDoc = new jsPDF();
+      
+      html2canvas(content).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdfWidth = pdfDoc.internal.pageSize.getWidth();
+        const pdfHeight = canvas.height * pdfWidth / canvas.width;
+  
+        pdfDoc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdfDoc.save('order-details.pdf');
+      }).catch(error => {
+        console.error('Error generating PDF:', error);
+      });
+    } else {
+      console.error('Content element not found');
+    }
+  }
+
+
+
+  // saveSellDetails(): void {
+  //   const orderDetails = {
+  //     orderId: this.orderId,
+  //     items: this.dataSource.data,
+  //     totalAmount: this.totalAmount
+  //   };
+  
+  //   console.log('Saving Order Details:', orderDetails);
+  
+  //   this.userService.saveOrderDetails(orderDetails).subscribe({
+  //     next: (response) => {
+  //       console.log('Order details saved:', response);
+  //     },
+  //     error: (error) => {
+  //       console.error('Error saving order details:', error);
+  //     }
+  //   });
+  // }
+  
+}
+
+
+Html:
+<app-header></app-header>
+
+  <div class="container" class="order-item-details-card">
+    <div class="split left">
+      <div class="centered">
+        <mat-card class="customer-card" *ngIf="!loading && order">
+          <mat-card-content>
+            <div class="order-details" fxLayout="column" fxLayoutAlign="start center">
+              <div class="order-detail" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <label for="orderid" fxFlex="150px"><h6>Order ID:</h6></label>
+                <div fxFlex>{{ order.orderid }}</div>
+              </div>
+              <div class="order-detail" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <label for="date" fxFlex="150px"><h6>Order Date:</h6></label>
+                <div fxFlex>{{ order.date ? (order.date | date:'shortDate') : 'Date not available' }}</div>
+              </div>
+              <div class="order-detail" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <label for="customerName" fxFlex="150px"><h6>Customer Name:</h6></label>
+                <div fxFlex>{{ order.customerName }}</div>
+              </div>
+              <div class="order-detail" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <label for="customerMobile" fxFlex="150px"><h6>Customer Mobile:</h6></label>
+                <div fxFlex>{{ order.customerMobile }}</div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <div *ngIf="loading" class="loading-spinner">
+          <mat-spinner></mat-spinner>
+          Loading...
+        </div>
+      </div>
+    </div>
+    
+    <div class="split right">
+      <div class="centered">
+        <div class="ADDCART">
+          <mat-card class="add-items-card">
+            <mat-card-header>
+              <mat-card-title>ADD CART ITEM</mat-card-title>
+            </mat-card-header>
+            <br>
+            <mat-card-content>
+              <form #itemForm="ngForm" (ngSubmit)="addItem(itemForm)">
+                <mat-form-field appearance="fill">
+                  <mat-label>Product</mat-label>
+                  <mat-select [(ngModel)]="selectedProduct" name="product" required>
+                    <mat-option *ngFor="let product of productList" [value]="product">
+                      {{ product.productName }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+          &nbsp; &nbsp;
+                <mat-form-field appearance="fill">
+                  <mat-label>Quantity</mat-label>
+                  <input matInput type="number" [(ngModel)]="quantity" name="quantity" required>
+                </mat-form-field>
+                &nbsp; &nbsp;
+                <button mat-raised-button color="primary" type="submit">Add Item</button>
+              </form>
+              <div >
+                <span><a [routerLink]="['/customer']">Back Customer Enter Page</a></span>
+            </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <!-- ITEM TO CALCULATION -->
+      <div class="orderdetail">
+        <mat-card class="order-item-details-card">
+          <mat-card-header>
+            <mat-card-title>ITEM REPORT AND CALCULATION</mat-card-title>
+            <br>
+            <br>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-table [dataSource]="cartItems" class="mat-elevation-z8">
+              <ng-container matColumnDef="productid">
+                <th mat-header-cell *matHeaderCellDef> Product Id </th>
+                <td mat-cell *matCellDef="let row"> {{ row.productid }} </td>
+              </ng-container>
+        
+              <ng-container matColumnDef="productName">
+                <th mat-header-cell *matHeaderCellDef> Product Title </th>
+                <td mat-cell *matCellDef="let row"> {{ row.productName }} </td>
+              </ng-container>
+        
+              <ng-container matColumnDef="costPerItem">
+                <th mat-header-cell *matHeaderCellDef> Cost Per Item </th>
+                <td mat-cell *matCellDef="let row"> {{ row.costPerItem }} </td>
+              </ng-container>
+        
+              <ng-container matColumnDef="totalUnits">
+                <th mat-header-cell *matHeaderCellDef> Total Units </th>
+                <td mat-cell *matCellDef="let row"> {{ row.totalUnits }} </td>
+              </ng-container>
+        
+              <ng-container matColumnDef="totalCost">
+                <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+                <td mat-cell *matCellDef="let row"> {{ row.totalCost | currency:'INR':'symbol' }} </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let row">
+                  <button mat-icon-button color="warn" (click)="removeItem(row)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+
+              </ng-container>
+        
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </mat-table>
+          </mat-card-content>
+            <br>
+          </mat-card>
+    </div>
+    <div class="table">
+            <table class="mat-elevation-z8 demo-table" >
+              <tr>
+                <th>Total Amount</th>
+                <td>{{ getTotalAmount() | currency:'INR':'symbol' }}</td>
+              </tr>
+              <tr>
+                <th>Discount (2%)</th>
+                <td>{{ discount | currency:'INR':'symbol' }}</td>
+              </tr>
+              <tr>
+                <th>Subtotal</th>
+                <td>{{ subtotal | currency:'INR':'symbol' }}</td>
+              </tr>
+              <tr>
+                <th>SGST (12%)</th>
+                <td>{{ sgst | currency:'INR':'symbol' }}</td>
+              </tr>
+              <tr>
+                <th>CGST (12%)</th>
+                <td>{{ cgst | currency:'INR':'symbol' }}</td>
+              </tr>
+              <tr>
+                <th>Invoice Total</th>
+                <td>{{ invoiceTotal | currency:'INR':'symbol' }}</td>
+              </tr>
+              <br>
+              <tr align="center">
+                <th>
+                  <button mat-raised-button color="primary" (click)="saveSellDetails()">Save Sell Details</button>
+
+                  <button mat-raised-button color="accent" (click)="downloadPDF()">Download PDF</button>
+                </th>
+              </tr>
+            </table>
+          </div>
+    </div> 
+  </div>
+  ts:
+  import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FormBuilder } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { ProductService } from '../product.service';
+import { OrderService } from '../order.service';
+import { Product } from '../model/product';
+import { OrderItem } from '../model/orderitem';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { Order } from '../model/order';
+
+@Component({
+  selector: 'app-userdetails',
+  templateUrl: './userdetails.component.html',
+  styleUrls: ['./userdetails.component.css']
+})
+export class UserDetailsComponent implements OnInit {
+  order!: any;
+  products: Product[] = [];
+  loading: boolean = true;
+  productList: Product[] = [];
+  selectedProduct: Product | null = null;
+  quantity: number = 0;
+  cartItems: any[] = [];
+  displayedColumns = ['productid', 'productName', 'costPerItem', 'totalUnits', 'totalCost', 'action'];
+  
+  // Calculation variables
+  totalUnits: number = 0;
+  overAllPrice: number = 0;
+  discount: number = 0;
+  subtotal: number = 0;
+  sgst: number = 0;
+  cgst: number = 0;
+  invoiceTotal: number = 0;
+  dataSource: any;
+
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private userService: OrderService,
+    private productService: ProductService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadProductList();
+    this.getAllProducts();
+    this.fetchOrderDetails();
+  }
+
+  private fetchOrderDetails(): void {
+    const id = this.route.snapshot.paramMap.get('id')!;
+    this.userService.getCustomerById(id).subscribe({
+      next: (response) => {
+        this.order = response;
+        if (this.order && typeof this.order.orderDate === 'string') {
+          this.order.orderDate = new Date(this.order.orderDate);
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching customer details:', error);
+        this.loading = false;
+      }
+    });
+  }
+
+  private loadProductList(): void {
+    this.productService.getProducts().subscribe({
+      next: (data) => {
+        this.products = data;
+      },
+      error: (error) => {
+        console.error('Error loading products:', error);
+      }
+    });
+  }
+
+  getAllProducts() {
+    this.productService.getProducts().subscribe(products => this.productList = products);
+  }
+
+  addItem(form: any) {
+    if (this.selectedProduct && this.quantity > 0) {
+      const totalCost = this.selectedProduct.costPerItem * this.quantity;
+      const existingItem = this.cartItems.find(item => item.productid === this.selectedProduct?.productid);
+
+      if (existingItem) {
+        existingItem.totalUnits += this.quantity;
+        existingItem.totalCost = existingItem.totalUnits * existingItem.costPerItem;
+      } else {
+        this.cartItems.push({
+          ...this.selectedProduct,
+          totalUnits: this.quantity,
+          totalCost: totalCost
+        });
+      }
+
+      // Update the dataSource
+      this.cartItems = [...this.cartItems];
+
+      // Calculate totals
+      this.calculateTotals();
+
+      form.reset();
+      this.selectedProduct = null;
+      this.quantity = 0;
+    } else {
+      console.log("Please select a product and enter a quantity.");
+    }
+  }
+
+  removeItem(item: OrderItem): void {
+    this.cartItems = this.cartItems.filter(i => i !== item);
+    this.calculateTotals();
+  }
+
+  private calculateTotals(): void {
+    this.totalUnits = this.cartItems.reduce((acc, item) => acc + (item.totalUnits || 0), 0);
+    this.overAllPrice = this.cartItems.reduce((acc, item) => acc + (item.totalCost || 0), 0);
+    
+    // Calculate discount
+    this.discount = this.overAllPrice * 2 / 100;
+    
+    // Calculate subtotal
+    this.subtotal = this.overAllPrice - this.discount;
+    
+    // Calculate SGST and CGST
+    this.sgst = this.overAllPrice * 12 / 100;
+    this.cgst = this.overAllPrice * 12 / 100;
+    
+    // Calculate invoice total
+    this.invoiceTotal = this.subtotal + this.sgst + this.cgst;
+  }
+
+  getTotalAmount(): number {
+    return this.overAllPrice;
+  }
+
+  downloadPDF(): void {
+    const content = document.querySelector('.order-item-details-card') as HTMLElement | null;
+  
+    if (content) {
+      const pdfDoc = new jsPDF();
+      
+      html2canvas(content).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdfWidth = pdfDoc.internal.pageSize.getWidth();
+        const pdfHeight = canvas.height * pdfWidth / canvas.width;
+  
+        pdfDoc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdfDoc.save('order-details.pdf');
+      }).catch(error => {
+        console.error('Error generating PDF:', error);
+      });
+    } else {
+      console.error('Content element not found');
+    }
+  }
+
+
+  saveSellDetails(): void {
+    const orderDetails = {
+      order: this.order.id,
+      cartItems: this.cartItems,
+      overAllPrice: this.overAllPrice
+    };
+  
+    console.log('Saving Order Details:', orderDetails);
+  
+    this.userService.saveOrderDetails(orderDetails).subscribe({
+      next: (response) => {
+        console.log('Order details saved:', response);
+      },
+      error: (error) => {
+        console.error('Error saving order details:', error);
+      }
+    });
+  }
+}
+service :
+ getCustomerById(id: string): Observable<Order> {
+    return this.http.get<Order>(`${this.apiUrl}/Order/${id}`);
+  }
+  createCustomer(order: Omit<Order, 'id'>): Observable<Order> {
+    return this.http.post<Order>(`${this.apiUrl}/Order`, order);
+  }
+
+  getCustomer(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.apiUrl}/Order`);
+  }
+
+  
+  
+  getOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.apiUrl}/orders`);
+  }
+
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}/product`);
+  } 
+  above html,ts,service have.additeams and calculateTotals strore list another one array .model.ts i want savedeatils methods and servcie.
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  {
+  
+  "productid":1,
+  "orderid":1,
+  "costPerItem":10,
+  "quntity":10,
+  "totalCost":100
+  
+  }
+  
+  
+  
+  Add the 'Access-Control-Allow-Origin' header to the server response. ...
+Set the 'Access-Control-Allow-Credentials' header to 'true' if using credentials. ...
+Allow the necessary HTTP methods and headers in the server configuration.
+
+https://angular.dev/api/core/numberAttribute   :::::

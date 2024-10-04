@@ -1,0 +1,91 @@
+Interview challenges:
+
+
+1. While answering question but did not understand answer interviwer.
+
+
+Self Intoduction :
+
+
+Greeting :
+
+Good afternoon, thank you for giving me the opportunity to speak with you today.
+
+Your Name & Eductional Backgroud:
+
+My name is [Muthuraj], and I recently graduated with a degree in Electronics and communication from Anna Universtity.During
+my studies, I focused on software development and gained hands-on experience in various progarmming languages,inculding Embeeded C,Microcontroller,Verilog coding.Iot chip Coding.
+
+
+Skils & Project :
+
+I complete Iot using Techologies Project - Home Automation Sytstem.
+Image Processing - Detection and leaf chatestics 
+Pesonal Tracking Application used - Java
+Verilog coding and using build - Ic facbriaction tool.
+
+
+Throughout my academic journey, 
+after joining Organz. 
+Problem Sloving, UML Diagram , Flow Chart ,Algortim used.
+UI FrameWork - Angualr material Used.
+Backed Framework - Core java and Spring Boot as well as Database Mysql.
+Testing Part - Automation and Manual Testing - Junit ,  Selenium , Jashmine Karma
+Devops - Git , Selenium, Junit, Docker , AWS .
+
+I worked Microproject and Capstone Project
+
+I worked on serveral projects that honed my technical and problem sloving skills.One of my key projects
+was developing web appliaction a web appliaction using Javascript and 
+
+Interest in the Client's Industy/Role.
+
+I m particulary excited about this opportunity because my orga focus on  . I am to apply real-word enviorment and contribute to my teams success.
+
+STAR Technique:
+
+Situation:
+
+Give the relevant backgorud information when describing the setting or situation you encountered.Describe the situation in detail so the interviwer will comprehend it.
+
+
+
+
+Task:
+
+Describe the challenge or task you were given to do. Clearly State what was expected of you and the objectives you set out to accomplish.
+
+Example:
+'As the team' lead developer,I was responsible for 
+
+
+
+Action:
+
+The steps you took to reslove the problem and complete the work are described in detail in this activity.Your postion, duties,
+and the actions you took to overcome obstacles should all be highlighted.
+
+
+Example : I created a projrct plan, delegated tasks among team members based on their strengths, and ensured we met daily progress checkpoints.
+I also implemeented the backed logic using Spring Boot and worked closely with the front 
+
+
+Describe the actions that you personally took to complete the taskor reach the end goal.Highlight skils or character traits addressed in the question.
+
+Result:
+
+
+Share the results of your activites.When feasible,quantify my accomplishments and explain how my activites contributed to the overall success.
+Emphasize the benefits of your work.
+
+
+Example Response (Result) :
+
+The Project was completed ahead of schedule, and we received excellent feedback form our professor for creating a fullt functional web appliaction.It boosted my confidence in managing projects and collaborating with teams.
+
+Interview Etiquettes:
+
+
+
+
+ I am writing to inform you that I will be attending a temple function this afternoon and tomorrow. This event is important to me and my family.
